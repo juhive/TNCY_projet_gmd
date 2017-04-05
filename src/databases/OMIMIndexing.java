@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.Date;
 
-import org.apache.lucene.analysis.Analyzer; //il faut importer dans referenced librairies les bonnes lib
+import org.apache.lucene.analysis.Analyzer;
 import org.analysis.common.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -27,6 +27,11 @@ import org.apache.lucene.store.FSDirectory;
  * et omim_onto.csv
  */
 public class OMIMIndexing {
+	
+	/*la classe n'est actuellement qu'un copier-coller du TP Lucene
+	 * il faut importer dans referenced librairies les bonnes lib pour utiliser lucene
+	 * elles sont dispo sur le Drive dans librairies.
+	*/
 
 	private OMIMIndexing(){}
 
