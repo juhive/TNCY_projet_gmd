@@ -3,6 +3,8 @@ package databases;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,12 +23,46 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import com.opencsv.CSVReader;
+
 
 public class OMIMIndexing {
 
 	private OMIMIndexing(){}
+	
+	/**
+	 * You need to import opencsv-3.9.jar from GoogleDrive
+	 * Then in resourcesFiles/omim check if it contains omim_onto.csv and omim.txt
+	 * Each file have is own static method
+	 */
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
+		//OMIMtxt();
+		OMIMcsv();
+	}
+
+	public static void OMIMcsv() {
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileReader("resourcesFiles/omim/omim_onto.csv"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String [] nextLine;
+		try {
+			while ((nextLine = reader.readNext()) != null) {
+				// nextLine[] is an array of values from the line
+				System.out.println("-NEW----------------");
+				System.out.println("Preferred label : "+nextLine[1]+"\nSynonym : "+nextLine[2]+"\nCUI : "+nextLine[5]);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	public static void OMIMtxt() {
 		String indexPath = "indexes/omim/";
 		String docsPath = "resourcesFiles/omim/omim.txt";
 
@@ -115,7 +151,7 @@ public class OMIMIndexing {
 						doc.add(new TextField("cs", cs, Field.Store.YES)); //only index because StringField analyse and also produce error "Document contains at least one immense term in field"
 					}
 					writer.addDocument(doc);
-					
+
 				}
 
 			}catch(Exception e){

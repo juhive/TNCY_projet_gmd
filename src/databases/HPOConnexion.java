@@ -127,8 +127,9 @@ public class HPOConnexion {
 				
 				while((ligne=br.readLine())!=null){
 					if(ligne.startsWith("[Term]")){
-						//new doc is created beacause new medicine
+						//new Doc is created because new medicine
 						doc = new Document();
+						elementsAjoute++;
 					}
 					if(ligne.startsWith("id:")){
 							String id_HP = ligne.substring(7);
