@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.analysis.common.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -22,25 +22,16 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 
-/* Il est important que chacun créé chez lui en local au même niveau que src un dossier
- * resourcesFiles. Dans ce dossier on créé également le dossier omim dans lequel se trouve omim.txt
- * et omim_onto.csv
- */
 public class OMIMIndexing {
-	
-	/*la classe n'est actuellement qu'un copier-coller du TP Lucene
-	 * il faut importer dans referenced librairies les bonnes lib pour utiliser lucene
-	 * elles sont dispo sur le Drive dans librairies.
-	*/
 
 	private OMIMIndexing(){}
 
 	public static void main(String[] args) {
-		String indexPath = "index/";
-		String docsPath = "src/Files/drugbank.txt";
+		String indexPath = "indexes/omim/";
+		String docsPath = "resourcesFiles/omim/omim.txt";
 
 		final File doc = new File(docsPath);
-		
+
 		if (!doc.exists()) {
 			System.out.println("Le fichier n'existe pas ou n'est pas lisible, veuillez vérifier le chemin d'accès");
 			System.exit(1);
@@ -64,10 +55,10 @@ public class OMIMIndexing {
 
 			Date end = new Date();
 			System.out.println("en " + (end.getTime() - start.getTime()) + " millisecondes" +
-					"\nIndexation terminée");
+					"\nIndexation done");
 		} catch (IOException e) {
-			System.out.println(" caught a " + e.getClass() +
-					"\n with message: " + e.getMessage());
+			System.out.println(" CAUGHT A " + e.getClass() +
+					"\n WITH MESSAGE : " + e.getMessage());
 		}
 	}
 
@@ -81,65 +72,57 @@ public class OMIMIndexing {
 				BufferedReader br = new BufferedReader(ipsr);
 				String ligne;
 				Document doc =null;
-				
+
 				while((ligne=br.readLine())!=null){
-					if(ligne.startsWith("#BEGIN_DRUGCARD")){
-						//creation d'un nouveau doc car nouveau médicament
+					if(ligne.startsWith("*RECORD*")){
+						//creation of a new Doc because it's a new disease
 						doc = new Document();
-					}
-					if(ligne.startsWith("# Generic_Name")){
-						String name=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new TextField("name", name, Field.Store.YES)); //Analyse et Indexe
-					}
-					if(ligne.startsWith("# Synonyms")){
-						String synonym=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new StringField("synonym", synonym, Field.Store.YES)); //Indexe
-					}
-					if(ligne.startsWith("# Brand_Names")){
-						String Brand_Names=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new StringField("brand_names", Brand_Names, Field.Store.YES));
-					}
-					if(ligne.startsWith("# Description")){
-						String Description=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new StringField("description", Description, Field.Store.YES));
-					}
-					if(ligne.startsWith("# Indication")){
-						String Indication=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new StringField("indication", Indication, Field.Store.YES));
-					}
-					if(ligne.startsWith("# Pharmacology")){
-						String Pharmacology=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new StringField("pharmacology", Pharmacology, Field.Store.YES));
-					}
-					if(ligne.startsWith("# Drug_Interactions")){
-						String Drug_Interactions=br.readLine();
-						//System.out.println(name+"\n");
-						//creation d'un champ et ajout dans le doc
-						doc.add(new StringField("drug_interactions", Drug_Interactions, Field.Store.YES));
-					}
-					if(ligne.startsWith("#END_DRUGCARD")){
-						writer.addDocument(doc);
 						elementsAjoute++;
+						System.out.println("-NEW----------------");
 					}
+					if(ligne.startsWith("*FIELD* NO")){
+						String no=br.readLine();
+						System.out.println("no : "+no);
+						//creation of field "no" and adding it in the Doc
+						doc.add(new TextField("no", no, Field.Store.YES)); //analyse and index
+						//doc.add(new StringField("no", no, Field.Store.YES)); //only index
+					}
+					if(ligne.startsWith("*FIELD* TI")){
+						String ti=br.readLine();
+						System.out.println("ti : "+ti);
+						//creation of field "ti" and adding it in the Doc
+						doc.add(new StringField("ti", ti, Field.Store.YES));
+					}
+					if(ligne.startsWith("*FIELD* CS")){
+						/*
+						String cstemp="";
+						System.out.println("cs : ");	
+						while(!(cstemp=br.readLine()).startsWith("*FIELD* CN")){
+						//CS is an enumeration of clinical sign so we stop at the next *FIELD* which is CN
+							if(cstemp.startsWith("INHERITANCE")){
+								String inheritance=br.readLine();
+								doc.add(new StringField("inheritance", inheritance, Field.Store.YES));
+								System.out.println(inheritance);	
+							}
+						};*/
+						String cstemp="";
+						String cs="";
+						while(!(cstemp=br.readLine()).startsWith("*FIELD*")){
+							cs=cs+cstemp;
+						}
+						System.out.println("cs : "+cs);
+						//creation of field "cs" and adding it in the Doc
+						doc.add(new TextField("cs", cs, Field.Store.YES)); //only index because StringField analyse and also produce error "Document contains at least one immense term in field"
+					}
+					writer.addDocument(doc);
+					
 				}
-				
+
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 			}
 		}
-		System.out.println(elementsAjoute+" éléments ajoutés à l'index");
+		System.out.println("\n"+elementsAjoute+" éléments ajoutés à l'index");
 	}
 
 }
