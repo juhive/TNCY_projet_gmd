@@ -82,12 +82,13 @@ public class IndexATC {
 
 						Document doc = new Document(); 
 						//on transforme la ligne en chaîne de caractere
-						System.out.println("code_ATC= "+line.substring(8,16)+" label= "+line.substring(17));
+						System.out.println("code_ATC = "+line.substring(8,16)+" | label = "+line.substring(17));
 						doc.add(new TextField ("code_ATC", line.substring(8,16), Field.Store.YES));		//on prend les 7 premiers car (taille code ATC)
 
 
-						doc.add(new TextField("label", line.substring(17), Field.Store.NO));			//on prends le reste de la chaîne
+						doc.add(new TextField("label", line.substring(17), Field.Store.YES));			//on prends le reste de la chaîne
 						line =br.readLine();
+						writer.addDocument(doc);
 
 					}
 				}

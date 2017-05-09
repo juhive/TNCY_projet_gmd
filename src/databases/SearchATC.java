@@ -29,7 +29,7 @@ public class SearchATC {
   public static void main(String[] args) throws Exception {
 
     String index = "indexes/ATC";
-    String field = "name";
+    String field = "code_ATC";
     String queries = null;
     int repeat = 0;
     boolean raw = false;
@@ -65,7 +65,7 @@ public class SearchATC {
       }
      
       Query query = parser.parse(line);
-      System.out.println("Searching for: " + query.toString(field));
+      System.out.println("Searching for : '" + query.toString(field)+"'");
            
       if (repeat > 0) {                           // repeat & time as benchmark
         Date start = new Date();
@@ -97,13 +97,13 @@ public class SearchATC {
    */
   public static void doPagingSearch(BufferedReader in, IndexSearcher searcher, Query query,
                                      int hitsPerPage, boolean raw, boolean interactive) throws IOException {
-	  System.out.println(query);
+	 // System.out.println(query);
     // Collect enough docs to show 5 pages
     TopDocs results = searcher.search(query, 5 * hitsPerPage);
     ScoreDoc[] hits = results.scoreDocs;
    
     int numTotalHits = results.totalHits;
-    System.out.println(numTotalHits + " total matching documents");
+    System.out.println(numTotalHits + " total matching documents\n");
 
     int start = 0;
     int end = Math.min(numTotalHits, hitsPerPage);
@@ -129,12 +129,12 @@ public class SearchATC {
         }
 
         Document doc = searcher.doc(hits[i].doc);
-        String name = doc.get("name");
-        if (name != null) {
-          System.out.println((i+1) + ". " + name);
-          String desc = doc.get("description");
-          if (desc != null) {
-            System.out.println("   description: " + doc.get("description"));
+        String codeATC = doc.get("code_ATC");
+        if (codeATC != null) {
+          //System.out.println((i+1) + ". " + name);
+          String label = doc.get("label");
+          if (label != null) {
+            System.out.println((i+1)+"."+codeATC+" = "+label);
           }
         } else {
           System.out.println((i+1) + ". " + "No doc for this name");
@@ -149,7 +149,7 @@ public class SearchATC {
       if (numTotalHits >= end) {
         boolean quit = false;
         while (true) {
-          System.out.print("Press ");
+          System.out.print("\nPress ");
           if (start - hitsPerPage >= 0) {
             System.out.print("(p)revious page, "); 
           }
