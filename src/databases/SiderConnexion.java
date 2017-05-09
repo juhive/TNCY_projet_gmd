@@ -2,8 +2,10 @@ package databases;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import java.sql.SQLException;
 
 public class SiderConnexion {
@@ -17,35 +19,50 @@ public class SiderConnexion {
 	
 public static void main(String[] args) {
 	
-	//tableMeddra();
+	tableMeddra("spOntAneous EjacuLation");
 	//tableMeddraIndication();
-	tablemeddraSe();
+	//tablemeddraSe();
 }
 
-public static void tableMeddra(){
+public static void tableMeddra(String clinicalSign){
 	try {
 		Class.forName(DRIVER);
 		Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
-		String myQuery = "SELECT * " +				//requete
-						 "FROM meddra " ;
+		
+		
+		//parameted request to search CUI from the given CS
+		String aQuery = "SELECT CUI FROM meddra WHERE label = ?";
+		PreparedStatement prep1 = con.prepareStatement(aQuery);
+		//exécution de la requête
+		prep1.setString(1,clinicalSign);
+		
+		ResultSet res = prep1.executeQuery();
+		
+		/*
+		String myQuery = "SELECT CUI " +				//requete
+						 "FROM meddra " +
+						 "WHERE label = 'Spontaneous ejaculation'";
+		
 		Statement st = con.createStatement();
-		ResultSet res = st.executeQuery(myQuery);
+		ResultSet res = st.executeQuery(myQuery)*/
+		
 		
 		while(res.next()){
 			String CUI = res.getString("cui");
-			String concept_type = res.getString("concept_type");
-			int id = res.getInt("meddra_id");
-			String nom= res.getString("label");
-			System.out.println("");
-			System.out.println(CUI+" ; "+concept_type+" ; "+id+" ; "+nom);
+			//String concept_type = res.getString("concept_type");
+			//int id = res.getInt("meddra_id");
+			//String nom= res.getString("label");
+			//System.out.println("");
+			System.out.println(CUI);
+			//System.out.println(CUI+" ; "+concept_type+" ; "+id+" ; "+nom);
 		}
 		res.close();
-		st.close();
+		//st.close();
 		con.close();
 	   }
 		catch (ClassNotFoundException e){
 			System.err.println("Could not load JDBC driver");
-			System.out.println("Esception: " + e);
+			System.out.println("Exception: " + e);
 			e.printStackTrace();
 		   
 	   }
