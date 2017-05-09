@@ -48,12 +48,12 @@ public class OMIMIndexing {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		String [] nextLine;
+		String [] Line;
 		try {
-			while ((nextLine = reader.readNext()) != null) {
+			while ((Line = reader.readNext()) != null) {
 				// nextLine[] is an array of values from the line
 				System.out.println("-NEW----------------");
-				System.out.println("Preferred label : "+nextLine[1]+"\nSynonym : "+nextLine[2]+"\nCUI : "+nextLine[5]);
+				System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
