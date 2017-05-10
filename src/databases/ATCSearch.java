@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -23,10 +24,54 @@ import org.apache.lucene.store.FSDirectory;
 
 /** Simple command-line based search demo. */
 public class ATCSearch {
+	
+	public static void main(String[] args) throws IOException, ParseException{
+		ATCSearch atcs = new ATCSearch("N01BA03");
+	}
 
 	//private SearchATC() {}
-
+	
 	public ATCSearch(String ATCtosearch) throws IOException, ParseException{
+		String index = "indexes/ATC";
+		String field = "code_ATC";
+		
+		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
+		IndexSearcher searcher = new IndexSearcher(reader);
+		Analyzer analyzer = new StandardAnalyzer();
+
+		String in = ATCtosearch;
+		QueryParser parser = new QueryParser(field, analyzer);
+		System.out.println("Searching for '" + ATCtosearch + "'");
+		Query query = parser.parse(in);
+		
+		int hitsPerPage = 10;
+		TopDocs results = searcher.search(query, 5 * hitsPerPage);
+		ScoreDoc[] hits = results.scoreDocs;
+		int numTotalHits = results.totalHits;
+		System.out.println(numTotalHits + " total matching documents\n");
+		
+		hits = searcher.search(query, numTotalHits).scoreDocs;
+		System.out.println("Number of hits: " + hits.length);
+		
+		int start = 0;
+		Integer end = Math.min(hits.length, start + hitsPerPage);
+		for (int i = start; i < end; i++) {
+			Document doc = searcher.doc(hits[i].doc);
+			String codeATC = doc.get("code_ATC");
+			if (codeATC != null) {
+				//System.out.println((i+1) + ". " + name);
+				String label = doc.get("label");
+				if (label != null) {
+					System.out.println((i+1)+"."+codeATC+" = "+label);
+				}
+			} else {
+				System.out.println((i+1) + ". " + "No doc for this name");
+			}
+		}	
+	}
+
+	/*
+	public ATCSearch(Integer ATCtosearch) throws IOException, ParseException{
 		String index = "indexes/ATC";
 		String field = "code_ATC";
 		String queries = null;
@@ -43,10 +88,6 @@ public class ATCSearch {
 		String in = ATCtosearch;
 		QueryParser parser = new QueryParser(field, analyzer);
 		while (true) {
-			if (queries == null && queryString == null) {                        // prompt the user
-				System.out.println("Enter query: ");
-			}
-
 			String line = queryString != null ? queryString : in;
 
 			if (line == null || line.length() == -1) {
@@ -170,8 +211,10 @@ public class ATCSearch {
 			}
 		}
 	}
-
+	*/
+	
 	/** Simple command-line based search demo. */
+	/*
 	public static void main(String[] args) throws Exception {
 
 		String index = "indexes/ATC";
@@ -230,6 +273,7 @@ public class ATCSearch {
 		}
 		reader.close();
 	}
+	*/
 
 	/**
 	 * This demonstrates a typical paging search scenario, where the search engine presents
@@ -241,6 +285,7 @@ public class ATCSearch {
 	 * is executed another time and all hits are collected.
 	 *
 	 */
+	/*
 	public static void doPagingSearch(BufferedReader in, IndexSearcher searcher, Query query,
 			int hitsPerPage, boolean raw, boolean interactive) throws IOException {
 		// System.out.println(query);
@@ -332,5 +377,6 @@ public class ATCSearch {
 			}
 		}
 	}
+	*/
 }
 
