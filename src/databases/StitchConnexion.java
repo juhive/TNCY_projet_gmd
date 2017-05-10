@@ -13,7 +13,7 @@ public class StitchConnexion {
 	
 	public static void stitch() {
 
-	        String csvFile = "resourcesFiles/chemical.sources.v5.0.EXTRAIT.tsv";
+	        String csvFile = "resourcesFiles/Stitch/chemical.sources.v5.0.EXTRAIT.tsv";
 	        String line = "";
 	        String cvsSplitBy = "\t";
 
