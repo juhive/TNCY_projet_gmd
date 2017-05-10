@@ -1,14 +1,7 @@
 package databases;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.Iterator;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -26,12 +19,14 @@ import org.apache.lucene.store.FSDirectory;
 public class ATCSearch {
 	
 	public static void main(String[] args) throws IOException, ParseException{
-		ATCSearch atcs = new ATCSearch("N01BA03");
+		String atcs = ATCSearchLabel("N01BA03");
+		System.out.println("\n"+atcs);
 	}
 
-	//private SearchATC() {}
+	private ATCSearch() {}
 	
-	public ATCSearch(String ATCtosearch) throws IOException, ParseException{
+	public static String ATCSearchLabel(String ATCtosearch) throws IOException, ParseException{
+		String label=null;
 		String index = "indexes/ATC";
 		String field = "code_ATC";
 		
@@ -60,14 +55,15 @@ public class ATCSearch {
 			String codeATC = doc.get("code_ATC");
 			if (codeATC != null) {
 				//System.out.println((i+1) + ". " + name);
-				String label = doc.get("label");
+				label = doc.get("label");
 				if (label != null) {
 					System.out.println((i+1)+"."+codeATC+" = "+label);
 				}
 			} else {
 				System.out.println((i+1) + ". " + "No doc for this name");
 			}
-		}	
+		}
+		return label;	
 	}
 
 	/*
