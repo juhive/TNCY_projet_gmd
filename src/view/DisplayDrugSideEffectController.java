@@ -1,20 +1,18 @@
 package view;
 
-import controller.Disease;
+import controller.DrugSideEffect;
 import controller.MainApp;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class DisplayController {
-	
+public class DisplayDrugSideEffectController {
 	@FXML
-    private TableView<Disease> diseaseTable;
+    private TableView<DrugSideEffect> drugTable;
     @FXML
-    private TableColumn<Disease, String> diseaseColumn;
+    private TableColumn<DrugSideEffect, String> drugColumn;
     @FXML
-    private TableColumn<Disease, String> fromColumn;
+    private TableColumn<DrugSideEffect, String> fromColumn2;
 
 
     // Reference to the main application.
@@ -24,7 +22,7 @@ public class DisplayController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
-    public DisplayController() {
+    public DisplayDrugSideEffectController() {
     }
     
     /**
@@ -34,8 +32,8 @@ public class DisplayController {
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
-        diseaseColumn.setCellValueFactory(cellData -> cellData.getValue().diseaseProperty());
-        fromColumn.setCellValueFactory(cellData -> cellData.getValue().fromProperty());
+        drugColumn.setCellValueFactory(cellData -> cellData.getValue().drugProperty());
+        fromColumn2.setCellValueFactory(cellData -> cellData.getValue().fromProperty());
     }
 
     /**
@@ -47,12 +45,11 @@ public class DisplayController {
         this.mainApp = mainApp;
 
         // Add observable list data to the table
-        diseaseTable.setItems(mainApp.getDiseaseData());
+        drugTable.setItems(mainApp.getDrugSideEffectData());
     }
     
-    public void handleButtonBack() {
+    public void handleButtonBack2() {
     	mainApp.showHomePage();
     	
     }
-
 }

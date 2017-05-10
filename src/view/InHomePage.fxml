@@ -22,10 +22,16 @@
             </Text>
          </children>
       </FlowPane>
-      <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutY="118.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutY="118.0" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
          <children>
             <TextField fx:id="CS" alignment="CENTER" prefWidth="300.0" promptText="Enter a clinical sign" />
-            <Button fx:id="searchButton" mnemonicParsing="false" onAction="#handleButtonSearch" text="Search" />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="CENTER" layoutY="179.0" prefHeight="171.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleButtonSearch" text="Search Diseases" />
+            <Button mnemonicParsing="false" onAction="#handleButtonMedecine" text="Search Medecines" />
+            <Button mnemonicParsing="false" onAction="#handleButtonDrugSideEffect" text="Search Drugs creating this side effect" />
          </children>
       </FlowPane>
    </children>

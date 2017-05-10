@@ -11,7 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import view.DisplayController;
+import view.DisplayDrugSideEffectController;
 import view.InHomePageController;
+import view.MedecineController;
 
 public class MainApp extends Application {
 
@@ -22,32 +24,54 @@ public class MainApp extends Application {
     /**
      * The data as an observable list of Persons.
      */
-    private ObservableList<Disease> personData = FXCollections.observableArrayList();
+    private ObservableList<Disease> diseaseData = FXCollections.observableArrayList();
+    private ObservableList<DrugSideEffect> drugSideEffectData = FXCollections.observableArrayList();
+    private ObservableList<Medecine> medecineData = FXCollections.observableArrayList();
+
 
     /**
      * Constructor
      */
     public MainApp() {
-        // Add some sample data
-        personData.add(new Disease("Hans", "Muster"));
-        personData.add(new Disease("Ruth", "Mueller"));
-        personData.add(new Disease("Heinz", "Kurz"));
-        personData.add(new Disease("Cornelia", "Meier"));
-        personData.add(new Disease("Werner", "Meyer"));
-        personData.add(new Disease("Lydia", "Kunz"));
-        personData.add(new Disease("Anna", "Best"));
-        personData.add(new Disease("Stefan", "Meier"));
-        personData.add(new Disease("Martin", "Mueller"));
+        // Add some sample data to disease
+    	
+    	diseaseData.add(new Disease("Hans", "Muster"));
+    	diseaseData.add(new Disease("Ruth", "Mueller"));
+    	
+    	
+    	
+    	drugSideEffectData.add(new DrugSideEffect("Heinz", "Kurz"));
+    	drugSideEffectData.add(new DrugSideEffect("Cornelia", "Meier"));
+    	
+    	
+    	medecineData.add(new Medecine("Werner", "Meyer"));
+    	medecineData.add(new Medecine("Lydia", "Kunz"));
+    	
     }
 
     /**
-     * Returns the data as an observable list of Persons. 
+     * Returns the data as an observable list of Disease. 
      * @return
      */
-    public ObservableList<Disease> getPersonData() {
-        return personData;
+    public ObservableList<Disease> getDiseaseData() {
+        return diseaseData;
     }
     
+    /**
+     * Returns the data as an observable list of DrugSideEffect. 
+     * @return
+     */
+    public ObservableList<DrugSideEffect> getDrugSideEffectData() {
+        return drugSideEffectData;
+    } 
+    
+    /**
+     * Returns the data as an observable list of Medecine. 
+     * @return
+     */
+    public ObservableList<Medecine> getMedecineData() {
+        return medecineData;
+    }
     
     
 
@@ -122,6 +146,51 @@ public class MainApp extends Application {
 
             // Give the controller access to the main app.
             DisplayController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows the display side effect view inside the root layout.
+     */
+    
+    public void showDisplaySideEffectPage() {
+    	try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/DisplayDrugSideEffect.fxml"));
+            AnchorPane displaySideEffect = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            homePage.setCenter(displaySideEffect);
+
+            // Give the controller access to the main app.
+            DisplayDrugSideEffectController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Shows the medecine view inside the root layout.
+     */
+    public void showDisplayMedecinePage() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("../view/DisplayMedecine.fxml"));
+            AnchorPane medicine = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            homePage.setCenter(medicine);
+
+            // Give the controller access to the main app.
+            MedecineController controller = loader.getController();
             controller.setMainApp(this);
 
         } catch (IOException e) {

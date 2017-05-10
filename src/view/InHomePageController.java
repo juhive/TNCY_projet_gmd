@@ -46,4 +46,18 @@ public class InHomePageController {
 	    	
 	    }
 	    
+	    public void handleButtonDrugSideEffect() {
+	    	String clinicalSign = CS.getText();
+	    	System.out.println(clinicalSign);
+	    	mainApp.showDisplaySideEffectPage();
+	    	
+	    }
+	    
+	    public void handleButtonMedecine() {
+	    	String clinicalSign = CS.getText();
+	    	System.out.println(clinicalSign);
+	    	mainApp.showDisplayMedecinePage();
+	    	
+	    }
+	    
 }

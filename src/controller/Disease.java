@@ -19,8 +19,8 @@ public class Disease {
 	/**
      * Constructor with some initial data.
      * 
-     * @param firstName
-     * @param lastName
+     * @param disease
+     * @param disease
      */
     public Disease(String disease, String from) {
         this.disease = new SimpleStringProperty(disease);
