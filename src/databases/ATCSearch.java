@@ -22,11 +22,11 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
 /** Simple command-line based search demo. */
-public class SearchATC {
+public class ATCSearch {
 
 	//private SearchATC() {}
 
-	public SearchATC(String ATCtosearch) throws IOException, ParseException{
+	public ATCSearch(String ATCtosearch) throws IOException, ParseException{
 		String index = "indexes/ATC";
 		String field = "code_ATC";
 		String queries = null;

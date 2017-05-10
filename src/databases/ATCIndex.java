@@ -20,8 +20,8 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-public class IndexATC {
-	private IndexATC() {}
+public class ATCIndex {
+	private ATCIndex() {}
 
 	/** Index all text files under a directory. */
 	public static void main(String[] args) {

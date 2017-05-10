@@ -8,7 +8,6 @@ import java.io.IOException;
 public class StitchConnexion {
 	
 	public static void main(String[] args) {
-		
 		stitch();
 	}
 	
