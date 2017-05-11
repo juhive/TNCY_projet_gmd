@@ -37,8 +37,8 @@ public class OMIMIndexing {
 	 */
 
 	public static void main(String[] args){
-		//OMIMtxt();
-		OMIMcsv();
+		OMIMtxt();
+		//OMIMcsv();
 	}
 
 	public static void OMIMcsv() {
@@ -69,14 +69,14 @@ public class OMIMIndexing {
 		final File doc = new File(docsPath);
 
 		if (!doc.exists()) {
-			System.out.println("Le fichier n'existe pas ou n'est pas lisible, veuillez vérifier le chemin d'accès");
+			System.out.println("the file does not exist or is not readable, please check the path");
 			System.exit(1);
 		}
 
 		Date start = new Date();
 
 		try {
-			System.out.println("Indexation dans le répertoire '" + indexPath + "' ...");
+			System.out.println("Indexing to directory '" + indexPath + "' ...");
 
 			Directory dir = FSDirectory.open(Paths.get(indexPath));
 			Analyzer analyzer = new StandardAnalyzer();
@@ -90,7 +90,7 @@ public class OMIMIndexing {
 			writer.close();
 
 			Date end = new Date();
-			System.out.println("en " + (end.getTime() - start.getTime()) + " millisecondes" +
+			System.out.println("en " + (end.getTime() - start.getTime()) + " milliseconds" +
 					"\nIndexation done");
 		} catch (IOException e) {
 			System.out.println(" CAUGHT A " + e.getClass() +
@@ -148,7 +148,12 @@ public class OMIMIndexing {
 						}
 						System.out.println("cs : "+cs);
 						//creation of field "cs" and adding it in the Doc
-						doc.add(new TextField("cs", cs, Field.Store.YES)); //only index because StringField analyse and also produce error "Document contains at least one immense term in field"
+						doc.add(new TextField("cs", cs, Field.Store.YES));
+						/*StringField is the standard un-analyzed indexed field. The field is indexed is a single token. It is appropriate things like identifiers, for which you only need to search for exact matches.
+						TextField is the standard analyzed (and, of course, indexed) field, for textual content. It is an appropriate choice for full-text searching.
+						StoredField is a stored field that is not indexed at all (and so, is not searchable).
+						 * */
+						//only index because StringField analyse and also produce error "Document contains at least one immense term in field"
 					}
 					writer.addDocument(doc);
 
@@ -158,7 +163,7 @@ public class OMIMIndexing {
 				System.out.println(e.getMessage());
 			}
 		}
-		System.out.println("\n"+elementsAjoute+" éléments ajoutés à l'index");
+		System.out.println("\n"+elementsAjoute+" elements add to the index");
 	}
 
 }

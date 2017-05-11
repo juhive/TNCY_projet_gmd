@@ -19,11 +19,11 @@ public class SiderConnexion {
 
 	public static void main(String[] args) {
 
-		String value = SearchMeddraCUIFromLABEL("headache"); //headache - spOntAneous EjacuLation
-		String value2 = SearchMeddraToMeddraAll(value);
-		System.out.println("\n"+value);
-		System.out.println(value2);
-		//tableMeddraIndication();
+		//String value = SearchMeddraCUIFromLABEL("fever"); //headache - spOntAneous EjacuLation - fever
+		//String value2 = SearchMeddraToMeddraAll(value);
+		//System.out.println("\n"+value);
+		//System.out.println(value2);
+		tableMeddraIndication();
 		//tablemeddraSe();
 	}
 
