@@ -7,12 +7,12 @@ import java.io.IOException;
 
 public class StitchConnexion {
 	
-	public static void main(String[] args) {
-		String ATC = stitch("CIDm00010517");
-		System.out.println(ATC);
-	}
-	
-	public static String stitch(String coumpound_id) {
+/**
+ * 
+ * @param compound_id (from meddra_all_indication or meddra_all_se)
+ * @return code ATC
+ */
+	public static String stitch_CpdID_to_codeATC(String compound_id) {
 
 	        String csvFile = "resourcesFiles/Stitch/chemical.sources.v5.0.EXTRAIT.tsv";
 	        String line = "";
@@ -26,9 +26,9 @@ public class StitchConnexion {
 	            	if (!line.startsWith("#")) {
 	                	String[] uneLigne = line.split(cvsSplitBy);
 	                	//System.out.println(uneLigne[0] + " " + uneLigne[1] + " " + uneLigne[2] + " " +uneLigne[3]);
-	                	System.out.println(uneLigne[0].toString()+"   "+coumpound_id);
+	                	System.out.println(uneLigne[0].toString()+"   "+compound_id);
 	                	
-	                	if (uneLigne[0].toString().equals(coumpound_id)){
+	                	if (uneLigne[0].toString().equals(compound_id)){
 	                		codeATC =uneLigne[3];
 	                	}
 	            	}
