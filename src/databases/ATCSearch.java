@@ -46,9 +46,7 @@ public class ATCSearch {
 		String in = ATCtosearch;
 		
 		if (in.equals("no match")){
-			
 			return new Couple();
-			
 		}
 		
 		QueryParser parser = new QueryParser(field, analyzer);

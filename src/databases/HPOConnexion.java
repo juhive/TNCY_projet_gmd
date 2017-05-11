@@ -79,7 +79,7 @@ public class HPOConnexion {
 		 * You need to add to resourcesFiles hp.obo or in my case hp_extrait.obo (from GoogleDrive)
 		 */
 
-		String indexPath = "indexes/HPO";
+		String indexPath = "indexes/HPO/";
 		String docsPath = "resourcesFiles/HPO/hp_extrait.obo";
 
 		final File doc = new File(docsPath);
@@ -92,17 +92,16 @@ public class HPOConnexion {
 		Date start = new Date();
 
 		try {
-			System.out.println("Indexation in directory" + indexPath + "' ...");
+			System.out.println("Indexation in directory '" + indexPath + "' ...");
 
 			Directory dir = FSDirectory.open(Paths.get(indexPath));
 			Analyzer analyzer = new StandardAnalyzer();
 			IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
-
 			iwc.setOpenMode(OpenMode.CREATE);
 
 			IndexWriter writer = new IndexWriter(dir, iwc);
+			
 			indexDoc(writer, doc);
-
 			writer.close();
 
 			Date end = new Date();
@@ -118,36 +117,40 @@ public class HPOConnexion {
 	static void indexDoc(IndexWriter writer, File file) throws IOException {
 		int elementsAjoute = 0;
 		if(file.canRead() && !file.isDirectory()){
+			
 			try{
 				InputStream ips = new FileInputStream(file);
 				InputStreamReader ipsr = new InputStreamReader(ips);
 				BufferedReader br = new BufferedReader(ipsr);
-				String ligne=br.readLine();
+				String ligne;
+				
+				//enable us to start parsing the file at the first [Term] line
+				for(int i=1 ; i<29 ; i++){
+					ligne=br.readLine();
+				} 
+				
 				Document doc =null;
 
 				while((ligne=br.readLine())!=null){
-					System.out.println(ligne);
 					if(ligne.startsWith("[Term]")){
 						//new Doc is created because new medicine
+						System.out.println("-NEW------");
 						doc = new Document();
 						ligne=br.readLine();
-
+						elementsAjoute++;
 					}
 					if(ligne.startsWith("id:")){
 						String id_HP = ligne.substring(7);
-						System.out.println(id_HP+"\n");
+						System.out.println("IDHP ="+id_HP);
 						ligne=br.readLine();
 						doc.add(new TextField("id_HP", id_HP, Field.Store.YES)); //Analyse et Indexe
 					}
-
-
 					if(ligne.startsWith("name:")){
 						String name = ligne.substring(6);
-						System.out.println(name+"\n");
+						System.out.println("name ="+name);
 						ligne=br.readLine();
 						doc.add(new TextField("name", name, Field.Store.YES)); //Analyse et Indexe
 					}
-
 					if(ligne.startsWith("synonym:")){
 						String synonym = ligne.substring(9);
 						int length = synonym.length();
@@ -158,23 +161,18 @@ public class HPOConnexion {
 							}
 						}
 						synonym = synonym.substring(1, j);
-						System.out.println(synonym+"\n");
+						System.out.println("Syn = "+synonym);
 						ligne=br.readLine();
 						doc.add(new StringField("synonym", synonym, Field.Store.YES)); 
 					}
-
-					
-						//writer.addDocument(doc);
-						elementsAjoute++;
-						
-
+					writer.addDocument(doc);
 				}br.close();
 
 			}catch(Exception e){
-				System.out.println("c'est "+e.getMessage());
+				System.out.println(e.getMessage());
 			}
 		}
-		System.out.println(elementsAjoute+" éléments ajoutés à l'index");
+		System.out.println(elementsAjoute+" elements add to the index");
 	}
 
 }
