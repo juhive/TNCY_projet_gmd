@@ -25,6 +25,13 @@ public class ATCSearch {
 
 	private ATCSearch() {}
 	
+	/**
+	 * 
+	 * @param ATCtosearch (code_ATC)
+	 * @return ATC_label
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public static String ATCSearchLabel(String ATCtosearch) throws IOException, ParseException{
 		String label=null;
 		String index = "indexes/ATC";

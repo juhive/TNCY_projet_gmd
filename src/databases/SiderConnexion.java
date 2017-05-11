@@ -19,14 +19,15 @@ public class SiderConnexion {
 
 	public static void main(String[] args) {
 
-		String value = SearchMeddraCUIFromLABEL("headache"); //headache - spOntAneous EjacuLation
-		String value2 = SearchMeddraToMeddraAll(value);
-		System.out.println("\n"+value);
-		System.out.println(value2);
-		//tableMeddraIndication();
-		//tablemeddraSe();
+		//SearchMeddraSE_cuiToCpdId1("C0000737");
+		//SearchMeddraToMeddraAll("C0000727");
 	}
 
+	/**
+	 * 
+	 * @param clinicalSign 
+	 * @return associate CUI in meddra
+	 */
 	public static String SearchMeddraCUIFromLABEL(String clinicalSign){
 		String CUI = null;
 		try {
@@ -78,6 +79,11 @@ public class SiderConnexion {
 
 	}
 	
+	/**
+	 * 
+	 * @param CUI
+	 * @return compound_id from meddra_all_indications
+	 */
 	public static String SearchMeddraToMeddraAll(String CUI){
 		String compound_id = null;
 		try {
@@ -115,6 +121,47 @@ public class SiderConnexion {
 			}
 		}
 		return compound_id;
+
+	}
+	
+	/**
+	 * 
+	 * @param CUI from meddra_all_se
+	 * @return Stitch_compound_id1 from meddra_all_se
+	 */
+	public static String SearchMeddraSE_cuiToCpdId1(String CUI){
+		String stitch_compound_id1 = null;
+		try {
+			Class.forName(DRIVER);
+			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
+			String aQuery = "SELECT stitch_compound_id1 FROM meddra_all_se WHERE cui = ?";;
+			PreparedStatement prep1 = con.prepareStatement(aQuery);
+			prep1.setString(1,CUI);
+			ResultSet res = prep1.executeQuery();
+			
+			while(res.next()){
+				stitch_compound_id1 = res.getString("stitch_compound_id1");
+			}
+			res.close();
+			con.close();
+		}
+		catch (ClassNotFoundException e){
+			System.err.println("Could not load JDBC driver");
+			System.out.println("Exception: " + e);
+			e.printStackTrace();
+		}
+		catch (SQLException ex) {
+			System.err.println("SQL Exception information");
+			while(ex!=null){
+				System.err.println("" + ex.getMessage());
+				System.err.println("" + ex.getSQLState());
+				System.err.println("" + ex.getErrorCode());
+				ex.printStackTrace();
+				ex = ex.getNextException();
+			}
+		}
+		System.out.println(stitch_compound_id1);
+		return stitch_compound_id1;
 
 	}
 
@@ -202,6 +249,7 @@ public class SiderConnexion {
 		}
 
 	}
+	
 
 }
 
