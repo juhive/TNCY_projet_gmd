@@ -29,7 +29,7 @@ import com.opencsv.CSVReader;
 public class OMIMIndexing {
 
 	private OMIMIndexing(){}
-	
+
 	/**
 	 * You need to import opencsv-3.9.jar from GoogleDrive
 	 * Then in resourcesFiles/omim check if it contains omim_onto.csv and omim.txt
@@ -107,14 +107,14 @@ public class OMIMIndexing {
 				InputStreamReader ipsr = new InputStreamReader(ips);
 				BufferedReader br = new BufferedReader(ipsr);
 				String ligne;
-				Document doc =null;
+				Document doc=null;
 
 				while((ligne=br.readLine())!=null){
 					if(ligne.startsWith("*RECORD*")){
 						//creation of a new Doc because it's a new disease
-						doc = new Document();
-						elementsAjoute++;
 						System.out.println("-NEW----------------");
+						elementsAjoute++;
+						doc = new Document();
 					}
 					if(ligne.startsWith("*FIELD* NO")){
 						String no=br.readLine();
@@ -131,16 +131,16 @@ public class OMIMIndexing {
 					}
 					if(ligne.startsWith("*FIELD* CS")){
 						/*
-						String cstemp="";
-						System.out.println("cs : ");	
-						while(!(cstemp=br.readLine()).startsWith("*FIELD* CN")){
-						//CS is an enumeration of clinical sign so we stop at the next *FIELD* which is CN
-							if(cstemp.startsWith("INHERITANCE")){
-								String inheritance=br.readLine();
-								doc.add(new StringField("inheritance", inheritance, Field.Store.YES));
-								System.out.println(inheritance);	
-							}
-						};*/
+							String cstemp="";
+							System.out.println("cs : ");	
+							while(!(cstemp=br.readLine()).startsWith("*FIELD* CN")){
+							//CS is an enumeration of clinical sign so we stop at the next *FIELD* which is CN
+								if(cstemp.startsWith("INHERITANCE")){
+									String inheritance=br.readLine();
+									doc.add(new StringField("inheritance", inheritance, Field.Store.YES));
+									System.out.println(inheritance);	
+								}
+							};*/
 						String cstemp="";
 						String cs="";
 						while(!(cstemp=br.readLine()).startsWith("*FIELD*")){
@@ -150,21 +150,18 @@ public class OMIMIndexing {
 						//creation of field "cs" and adding it in the Doc
 						doc.add(new TextField("cs", cs, Field.Store.YES));
 						/*StringField is the standard un-analyzed indexed field. The field is indexed is a single token. It is appropriate things like identifiers, for which you only need to search for exact matches.
-						TextField is the standard analyzed (and, of course, indexed) field, for textual content. It is an appropriate choice for full-text searching.
-						StoredField is a stored field that is not indexed at all (and so, is not searchable).
+							TextField is the standard analyzed (and, of course, indexed) field, for textual content. It is an appropriate choice for full-text searching.
+							StoredField is a stored field that is not indexed at all (and so, is not searchable).
 						 * */
 						//only index because StringField analyse and also produce error "Document contains at least one immense term in field"
 					}
 					writer.addDocument(doc);
-
 				}
-
+				br.close();
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 			}
 		}
 		System.out.println("\n"+elementsAjoute+" elements add to the index");
 	}
-
 }
-
