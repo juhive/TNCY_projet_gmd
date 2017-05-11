@@ -15,12 +15,14 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
+import controller.Couple;
+
 /** Simple command-line based search demo. */
 public class ATCSearch {
 	
 	public static void main(String[] args) throws IOException, ParseException{
-		String atcs = ATCSearchLabel("N01BA03");
-		System.out.println("\n"+atcs);
+		//String atcs = ATCSearchLabel("N01BA03");
+		//System.out.println("\n"+atcs);
 	}
 
 	private ATCSearch() {}
@@ -32,7 +34,7 @@ public class ATCSearch {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public static String ATCSearchLabel(String ATCtosearch) throws IOException, ParseException{
+	public static Couple ATCSearchLabel(String ATCtosearch) throws IOException, ParseException{
 		String label=null;
 		String index = "indexes/ATC";
 		String field = "code_ATC";
@@ -70,7 +72,9 @@ public class ATCSearch {
 				System.out.println((i+1) + ". " + "No doc for this name");
 			}
 		}
-		return label;	
+		
+		Couple couple = new Couple(label, "ATC");
+		return couple;	
 	}
 
 	/*
