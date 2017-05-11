@@ -1,19 +1,19 @@
 package view;
 
-import controller.Disease;
+import controller.Medecine;
 import controller.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class DisplayController {
+public class MedecineController {
 	
 	@FXML
-    private TableView<Disease> diseaseTable;
+    private TableView<Medecine> medecineTable;
     @FXML
-    private TableColumn<Disease, String> diseaseColumn;
+    private TableColumn<Medecine, String> medecineColumn;
     @FXML
-    private TableColumn<Disease, String> fromColumn;
+    private TableColumn<Medecine, String> fromColumn3;
 
 
     // Reference to the main application.
@@ -23,7 +23,7 @@ public class DisplayController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
-    public DisplayController() {
+    public MedecineController() {
     }
     
     /**
@@ -33,8 +33,8 @@ public class DisplayController {
     @FXML
     private void initialize() {
         // Initialize the person table with the two columns.
-        diseaseColumn.setCellValueFactory(cellData -> cellData.getValue().diseaseProperty());
-        fromColumn.setCellValueFactory(cellData -> cellData.getValue().fromProperty());
+        medecineColumn.setCellValueFactory(cellData -> cellData.getValue().medecineProperty());
+        fromColumn3.setCellValueFactory(cellData -> cellData.getValue().fromProperty());
     }
 
     /**
@@ -46,13 +46,12 @@ public class DisplayController {
         this.mainApp = mainApp;
 
         // Add observable list data to the table
-        diseaseTable.setItems(mainApp.getDiseaseData());
+        medecineTable.setItems(mainApp.getMedecineData());
     }
     
-    public void handleButtonBack() {
+    public void handleButtonBack3() {
     	mainApp.showHomePage();
     	
     }
- 
 
 }

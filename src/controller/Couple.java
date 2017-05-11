@@ -7,8 +7,8 @@ public class Couple {
 	
 	
 	public Couple() {
-		this.disease = "";
-		this.dataBase = "";
+		this.disease = null;
+		this.dataBase = null;
 	}
 	
 	public Couple(String dis, String db) {
@@ -30,7 +30,10 @@ public class Couple {
 	}
 	
 	public String toString() {
-		return (this.disease + " = " + this.dataBase);
+		if (this.disease != null & this.dataBase != null) {
+			return (this.disease + " = " + this.dataBase);
+		}
+		else {return null;}
 	}
 
 }

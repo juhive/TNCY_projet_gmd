@@ -27,7 +27,7 @@ import controller.Couple;
 	public class OrphaDataBase {
 
 		public static void main(String[] args) throws JarException, MalformedURLException, IOException, ParseException {
-			CStoDisease("Cranial anomalies");
+			CStoDiseases("Cranial anomalies");
 			//Skull/cranial anomalies
 			//Conjunctival injection/chemosis/red eye
 		}
@@ -35,7 +35,7 @@ import controller.Couple;
 	   
 	     	
 	     	
-	    public static ArrayList<Couple> CStoDisease (String clinicalSign) throws MalformedURLException, IOException, ParseException, JarException{
+	    public static ArrayList<Couple> CStoDiseases (String clinicalSign) throws MalformedURLException, IOException, ParseException, JarException{
 	    	ArrayList<Couple> finalListDisease= new ArrayList<Couple>();
 	    	String urlString = "http://couchdb.telecomnancy.univ-lorraine.fr/orphadatabase/_design/clinicalsigns/_view/GetClinicalSignToDiseaseClassification";
 	    	URL url = new URL(urlString);
@@ -52,8 +52,6 @@ import controller.Couple;
 				//get Clinical Sign Name
 				String CSname = (String) value.get("Name");
 				
-				//clinicalSign.toLowerCase().equals(CSname.toLowerCase())
-				//CSname.toLowerCase().contains(clinicalSign.toLowerCase())
 				if(CSname.toLowerCase().contains(clinicalSign.toLowerCase())) {
 					
 					if (value.get("ClassificationDisease") instanceof JSONArray) {

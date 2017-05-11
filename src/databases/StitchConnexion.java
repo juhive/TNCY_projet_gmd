@@ -26,7 +26,7 @@ public class StitchConnexion {
 	            	if (!line.startsWith("#")) {
 	                	String[] uneLigne = line.split(cvsSplitBy);
 	                	//System.out.println(uneLigne[0] + " " + uneLigne[1] + " " + uneLigne[2] + " " +uneLigne[3]);
-	                	System.out.println(uneLigne[0].toString()+"   "+compound_id);
+	                	//System.out.println(uneLigne[0].toString()+"   "+compound_id);
 	                	
 	                	if (uneLigne[0].toString().equals(compound_id)){
 	                		codeATC =uneLigne[3];

@@ -1,6 +1,13 @@
 package view;
 
+import java.util.ArrayList;
+
+import controller.Couple;
+import controller.Disease;
 import controller.MainApp;
+import databases.HPOConnexion;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,10 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class InHomePageController {
-		
+	
 		@FXML
 	  	private TextField CS;
-
+		private String clinicalSign;
+	
 	    // Reference to the main application.
 	    private MainApp mainApp;
 
@@ -42,10 +50,9 @@ public class InHomePageController {
 	    public void handleButtonSearch() {
 	    	String clinicalSign = CS.getText();
 	    	System.out.println(clinicalSign);
-	    	mainApp.showDisplayPage();
-	    	
+	    	mainApp.showDisplayPage();	
 	    }
-	    
+	    		    
 	    public void handleButtonDrugSideEffect() {
 	    	String clinicalSign = CS.getText();
 	    	System.out.println(clinicalSign);
@@ -54,10 +61,14 @@ public class InHomePageController {
 	    }
 	    
 	    public void handleButtonMedecine() {
-	    	String clinicalSign = CS.getText();
+	    	clinicalSign = CS.getText();
 	    	System.out.println(clinicalSign);
 	    	mainApp.showDisplayMedecinePage();
 	    	
+	    }
+	    
+	    public String getCS() {
+	    	return clinicalSign;
 	    }
 	    
 }

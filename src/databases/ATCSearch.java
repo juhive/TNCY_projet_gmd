@@ -25,7 +25,7 @@ public class ATCSearch {
 		//System.out.println("\n"+atcs);
 	}
 
-	private ATCSearch() {}
+	public ATCSearch() {}
 	
 	/**
 	 * 
@@ -44,6 +44,13 @@ public class ATCSearch {
 		Analyzer analyzer = new StandardAnalyzer();
 
 		String in = ATCtosearch;
+		
+		if (in.equals("no match")){
+			
+			return new Couple();
+			
+		}
+		
 		QueryParser parser = new QueryParser(field, analyzer);
 		System.out.println("Searching for '" + ATCtosearch + "'");
 		Query query = parser.parse(in);

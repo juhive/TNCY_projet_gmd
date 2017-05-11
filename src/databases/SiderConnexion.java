@@ -26,7 +26,7 @@ public class SiderConnexion {
 	/**
 	 * 
 	 * @param clinicalSign 
-	 * @return associate CUI in meddra
+	 * @return associate CUI from meddra
 	 */
 	public static String SearchMeddraCUIFromLABEL(String clinicalSign){
 		String CUI = null;
