@@ -33,7 +33,6 @@ public class MainApp extends Application {
     private ObservableList<Medecine> medecineData = FXCollections.observableArrayList();
 
 
-
     /**
      * Constructor
      * @throws ParseException 

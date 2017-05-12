@@ -91,11 +91,23 @@ public class OMIMSearch {
 						Matcher matcher = pattern.matcher(current);
 						if (matcher.find()) {
 							current = current.substring(8);
+							int length = current.length();
+		 					int k = 0;
+		 					while(current.charAt(k) != ';' && k < length-1) {
+		 						k++;
+		 						}
+		 					current = current.substring(0, k);
 							
 						}
 						Matcher matcher2 = pattern2.matcher(current);
 						if (matcher2.find()) {
 							current = current.substring(7);
+							int length = current.length();
+		 					int k = 0;
+		 					while(current.charAt(k) != ';' && k < length-1) {
+		 						k++;
+		 						}
+		 					current = current.substring(0, k);
 						}
 						current = current.toLowerCase();
 						Couple couple = new Couple(current, "OMIM");
