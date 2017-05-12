@@ -51,7 +51,7 @@ import controller.Couple;
 				//get Clinical Sign Name
 				String CSname = (String) value.get("Name");
 				
-				if(CSname.toLowerCase().contains(clinicalSign.toLowerCase())) {
+				if(clinicalSign.toLowerCase().equals(CSname.toLowerCase())) {
 					
 					if (value.get("ClassificationDisease") instanceof JSONArray) {
 						JSONArray classificationDisease = (JSONArray) value.get("ClassificationDisease");
@@ -83,7 +83,7 @@ import controller.Couple;
 
 	    }
 	      
-	    }
+}
 
 		
 		

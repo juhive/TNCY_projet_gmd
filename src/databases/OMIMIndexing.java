@@ -28,7 +28,7 @@ import com.opencsv.CSVReader;
 
 public class OMIMIndexing {
 
-	private OMIMIndexing(){}
+	public OMIMIndexing(){}
 
 	/**
 	 * You need to import opencsv-3.9.jar from GoogleDrive

@@ -27,6 +27,13 @@ public class HPOSearch {
 
 	private HPOSearch() {}
 
+	/**
+	 * 
+	 * @param nameSearch (clinicalSign)
+	 * @return Couple <HP, HPO>
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public static Couple id_HPO_oboSearchid_HP(String nameSearch) throws IOException, ParseException{
 		String id_HP=null;
 		String index = "indexes/HPO";

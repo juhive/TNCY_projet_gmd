@@ -47,6 +47,10 @@ public class OMIMSearch {
 
 		String in = CStosearch;
 		
+		if (in.equals("no match")){
+			return new ArrayList<Couple>();
+		}
+		
 		
 		QueryParser parser = new QueryParser(field, analyzer);
 		System.out.println("Searching for '" + CStosearch + "'");

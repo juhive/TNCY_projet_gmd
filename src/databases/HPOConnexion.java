@@ -8,7 +8,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -22,6 +25,8 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import controller.Couple;
+
 public class HPOConnexion {
 
 	public static void main(String[] args) {
@@ -30,6 +35,8 @@ public class HPOConnexion {
 		HP_obo();
 	}
 
+	
+	
 	public static void HPO_annotation(){
 		/**
 		 * First, you need to import sqlite-jdbc.jar from GoogleDrive
@@ -113,7 +120,6 @@ public class HPOConnexion {
 		}
 	}
 
-
 	static void indexDoc(IndexWriter writer, File file) throws IOException {
 		int elementsAjoute = 0;
 		if(file.canRead() && !file.isDirectory()){
@@ -175,4 +181,111 @@ public class HPOConnexion {
 		System.out.println(elementsAjoute+" elements add to the index");
 	}
 
+	
+	/** 1 = sign_id
+	 * 2 = disease_db_and_id 
+	 **/
+	 public static ArrayList<Couple> ToDiseaseLabel(String hpo_anno_sign_id, int what){
+	 	
+	 	String diseaseLabel = null;
+	 	String diseaseDb = null;
+	 	
+		Pattern pattern = Pattern.compile("^#[0-9]|^%[0-9]");
+		Pattern pattern2 = Pattern.compile("^[0-9]");
+	 		
+	 	ArrayList<Couple> ListDiseaseLabel = new ArrayList<Couple>();
+	 	    
+	 	    
+	 	try {
+	 		Class.forName("org.sqlite.JDBC");
+	 		Connection conn = DriverManager.getConnection("jdbc:sqlite:resourcesFiles/HPO/hpo_annotations.sqlite");
+	 			
+	 		String aQuery= "";
+	 		if(what == 1) {
+	 		aQuery = "SELECT disease_label, disease_db FROM phenotype_annotation WHERE sign_id = ?";
+	 		}
+	 		else if(what == 2) {
+	 			aQuery = "SELECT disease_label, disease_db FROM phenotype_annotation WHERE disease_db_and_id = ?";
+	 			}
+	 		PreparedStatement prep1 = conn.prepareStatement(aQuery);
+	 		prep1.setString(1,hpo_anno_sign_id);
+	 		
+	 			
+	 			//exécution de la requête
+	 		ResultSet res = prep1.executeQuery();
+	 		
+	 		while(res.next()){
+	 			diseaseLabel = res.getString("disease_label");
+	 			diseaseDb = res.getString("disease_db");
+	 			if (diseaseDb.equals("OMIM")) {
+	 				
+	 				Matcher matcher = pattern.matcher(diseaseLabel);
+	 				if (matcher.find()) {
+	 					diseaseLabel = diseaseLabel.substring(8);
+	 					int length = diseaseLabel.length();
+	 					int i = 0;
+	 					while(diseaseLabel.charAt(i) != ';' && i < length-1) {
+	 						i++;
+	 						}
+	 					diseaseLabel = diseaseLabel.substring(0, i);
+	 				}
+	 				
+	 				
+	 				Matcher matcher2 = pattern2.matcher(diseaseLabel);
+	 				if (matcher2.find()) {
+	 					diseaseLabel = diseaseLabel.substring(7);
+	 					int length = diseaseLabel.length();
+	 					int i = 0;
+	 					while(diseaseLabel.charAt(i) != ';' && i < length-1) {
+	 						i++;
+	 						}
+	 					diseaseLabel = diseaseLabel.substring(0, i);
+	 				}
+	 				diseaseLabel = diseaseLabel.toLowerCase();
+	 				Couple couple = new Couple(diseaseLabel, "OMIM");
+	 				ListDiseaseLabel.add(couple);
+	 			}
+	 			else if (diseaseDb.equals("ORPHA")) {
+	 				diseaseLabel = diseaseLabel.toLowerCase();
+	 				Couple couple = new Couple(diseaseLabel, "OrphaData");
+	 				ListDiseaseLabel.add(couple);
+	 			}
+	 			else if (diseaseDb.equals("DECIPHER")) {
+	 				diseaseLabel = diseaseLabel.toLowerCase();
+	 				Couple couple = new Couple(diseaseLabel, "Decipher");
+	 				ListDiseaseLabel.add(couple);
+	 			}				
+	 			
+	 		}
+	 		res.close();
+	 		conn.close();
+	 	}
+	 	catch (ClassNotFoundException e){
+	 		System.err.println("Could not load JDBC driver");
+	 		System.out.println("Exception: " + e);
+	 		e.printStackTrace();
+	 	}
+	 	catch (SQLException ex) {
+	 		System.err.println("SQL Exception information");
+	 		while(ex!=null){
+	 			System.err.println("" + ex.getMessage());
+	 			System.err.println("" + ex.getSQLState());
+	 			System.err.println("" + ex.getErrorCode());
+	 			ex.printStackTrace();
+	 			ex = ex.getNextException();
+	 			}
+	 	}
+	 	
+	 	if(what == 2) {
+	 		ArrayList<Couple> ListDiseaseLabel2 = new ArrayList<Couple>();
+	 		Couple oneTime = ListDiseaseLabel.get(0);
+	 		ListDiseaseLabel2.add(oneTime);
+	 		ListDiseaseLabel = ListDiseaseLabel2;
+	 	}
+	 	
+	 	System.out.println(ListDiseaseLabel.toString());
+		return ListDiseaseLabel;
+	 
+	 }
+	
 }

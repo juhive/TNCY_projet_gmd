@@ -2,6 +2,8 @@ package databases;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -34,7 +36,7 @@ public class ATCSearch {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	public static Couple ATCSearchLabel(String ATCtosearch) throws IOException, ParseException{
+	public static ArrayList <Couple> ATCSearchLabel(String ATCtosearch) throws IOException, ParseException{
 		String label=null;
 		String index = "indexes/ATC";
 		String field = "code_ATC";
@@ -46,7 +48,7 @@ public class ATCSearch {
 		String in = ATCtosearch;
 		
 		if (in.equals("no match")){
-			return new Couple();
+			return new ArrayList<Couple>();
 		}
 		
 		QueryParser parser = new QueryParser(field, analyzer);
@@ -79,7 +81,9 @@ public class ATCSearch {
 		}
 		
 		Couple couple = new Couple(label, "ATC");
-		return couple;	
+		ArrayList finalresult = new ArrayList<Couple>();
+		finalresult.add(couple);
+		return finalresult;	
 	}
 
 	/*
