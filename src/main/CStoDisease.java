@@ -28,36 +28,43 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		ArrayList<Couple> orphaList = new ArrayList<Couple>();
 		ArrayList<Couple> omimList = new ArrayList<Couple>();
 		ArrayList<Couple> hpoList = new ArrayList<Couple>();
+		ArrayList<Couple> hpoList2 = new ArrayList<Couple>();
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		//ORPHADATA
 		orphaList = orphadb.CStoDiseases(clinicalSign);
+		
 		//OMIM
 		File indexOmim = new File("indexes/omim/");
 		if (!indexOmim.exists()) {
 			omimindex.OMIMtxt();
 		}
 		omimList = omimdb.OMIMSearchDisease(clinicalSign);
+		
 		//HPO
 		File indexHP = new File ("indexes/HPO/");
 		if (!indexHP.exists()) {
 			hpocon.HP_obo();
 		}
 		String idHP = hposearch.id_HPO_oboSearchid_HP(clinicalSign);
+		String id_HP = hposearch.id_HPO_annotationSearchid_HP(clinicalSign);
 		hpoList=hpocon.ToDiseaseLabel(idHP, 1);
+		hpoList2=hpocon.ToDiseaseLabel(id_HP, 1);
+		
 		
 		finalList.addAll(orphaList);
 		finalList.addAll(omimList);
 		finalList.addAll(hpoList);
-		
-		System.out.println(finalList);
+		finalList.addAll(hpoList2);
+				
 		return finalList;
 	}
 	
 	
 	public static void main(String[] args) throws IOException, ParseException, org.json.simple.parser.ParseException {
 
-		ClinicalSignTosDisease("skull/cranial anomalies");
+		//ClinicalSignTosDisease("Abnormality of the clit");
+		System.out.println(hposearch.id_HPO_annotationSearchid_HP("Abnormality of the clit"));
 		}
 	
 }

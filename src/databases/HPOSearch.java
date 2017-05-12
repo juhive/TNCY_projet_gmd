@@ -22,8 +22,8 @@ import controller.Couple;
 public class HPOSearch {
 
 	public static void main(String[] args) throws IOException, ParseException{
-		String id_HPOs = id_HPO_oboSearchid_HP("abnormality of body height");		
-		Couple id_HPOsynonym = id_HPO_annotationSearchid_HP("Abnormality of the clit");
+		//String id_HPOs = id_HPO_oboSearchid_HP("abnormality of body height");		
+		String id_HP = id_HPO_annotationSearchid_HP("Hydrocele");
 		
 	}
 
@@ -87,11 +87,12 @@ public class HPOSearch {
 
 	//find hp with synonym	
 
-	public static Couple id_HPO_annotationSearchid_HP(String nameSearch) throws IOException, ParseException{
-					
-		for (int p= 0; p<10; p++){			//find every synonyms
+	public static String id_HPO_annotationSearchid_HP(String nameSearch) throws IOException, ParseException{
 			String id_HP=null;
-			String index = "indexes/HPO";
+			String index = "indexes/HPO";	
+			
+		for (int p= 0; p<10; p++){			//find every synonyms
+			
 			String field = "synonym".concat(Integer.toString(p));
 
 
@@ -102,7 +103,7 @@ public class HPOSearch {
 			String in = nameSearch;
 
 			if (in.equals("no match")){
-				return new Couple();
+				return id_HP;
 			}
 
 			QueryParser parser = new QueryParser(field, analyzer);
@@ -118,7 +119,7 @@ public class HPOSearch {
 			int numTotalHits = results.totalHits;
 			
 			if (numTotalHits == 0){
-				return new Couple();
+				return id_HP;
 			}
 			//System.out.println(numTotalHits + " total matching documents\n");
 
@@ -134,7 +135,7 @@ public class HPOSearch {
 				String syn = "synonym".concat(Integer.toString(p));		
 				String synonym= doc.get(syn);
 				if (synonym!= null) {
-					//System.out.println((i+1) + ". " + name);
+					//System.out.println((i+1) + ". " + synonym);
 					id_HP = doc.get("id_HP");
 					if (id_HP != null) {
 						System.out.println((i+1)+"."+id_HP+" = "+synonym);
@@ -144,12 +145,12 @@ public class HPOSearch {
 				}
 
 				
-			}Couple couple = new Couple(id_HP,"HPO");
-			return couple;
+			};
+			return id_HP;
 
 				
 		}
-			return new Couple();
+			return id_HP;
 
 	}
 }

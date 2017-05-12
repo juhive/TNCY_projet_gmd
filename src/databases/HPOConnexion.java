@@ -32,7 +32,7 @@ public class HPOConnexion {
 	public static void main(String[] args) {
 
 		//HPO_annotation();
-		//HP_obo();
+		HP_obo();
 		System.out.println(ToDiseaseLabel("HP:0000056", 1));
 	}
 
