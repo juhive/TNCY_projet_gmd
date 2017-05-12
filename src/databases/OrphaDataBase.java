@@ -27,7 +27,7 @@ import controller.Couple;
 	public class OrphaDataBase {
 
 		public static void main(String[] args) throws JarException, MalformedURLException, IOException, ParseException {
-			CStoDiseases("Cranial anomalies");
+			CStoDiseases("Conjunctival injection/chemosis/red eye");
 			//Skull/cranial anomalies
 			//Conjunctival injection/chemosis/red eye
 		}
@@ -47,7 +47,6 @@ import controller.Couple;
 			for(int i=0;i<genreArray.size();i++){
 				JSONObject row= (JSONObject) genreArray.get(i);
 				JSONObject value =  (JSONObject) row.get("value");
-				Long key = (Long) row.get("key");
 				
 				//get Clinical Sign Name
 				String CSname = (String) value.get("Name");
@@ -80,7 +79,6 @@ import controller.Couple;
 				
 					
 			}
-			System.out.println(finalListDisease);
 			return finalListDisease;
 
 	    }

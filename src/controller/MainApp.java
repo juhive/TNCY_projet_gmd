@@ -1,6 +1,11 @@
 package controller;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.jar.JarException;
+
+import org.json.simple.parser.ParseException;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -20,27 +25,24 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane homePage;
     
-    
     /**
      * The data as an observable list of Persons.
      */
-    private ObservableList<Disease> diseaseData = FXCollections.observableArrayList();
+    //private ObservableList<Disease> diseaseData = FXCollections.observableArrayList();
     private ObservableList<DrugSideEffect> drugSideEffectData = FXCollections.observableArrayList();
     private ObservableList<Medecine> medecineData = FXCollections.observableArrayList();
 
 
+
     /**
      * Constructor
+     * @throws ParseException 
+     * @throws IOException 
+     * @throws MalformedURLException 
+     * @throws JarException 
      */
     public MainApp() {
-        // Add some sample data to disease
-    	
-    	diseaseData.add(new Disease("Hans", "Muster"));
-    	diseaseData.add(new Disease("Ruth", "Mueller"));
-    	
-    	
-    	
-    	drugSideEffectData.add(new DrugSideEffect("Heinz", "Kurz"));
+    
     	drugSideEffectData.add(new DrugSideEffect("Cornelia", "Meier"));
     	
     	
@@ -49,13 +51,6 @@ public class MainApp extends Application {
     	
     }
 
-    /**
-     * Returns the data as an observable list of Disease. 
-     * @return
-     */
-    public ObservableList<Disease> getDiseaseData() {
-        return diseaseData;
-    }
     
     /**
      * Returns the data as an observable list of DrugSideEffect. 
@@ -133,6 +128,7 @@ public class MainApp extends Application {
     
     /**
      * Shows the display view inside the root layout.
+     * @throws ParseException 
      */
     public void showDisplayPage() {
         try {

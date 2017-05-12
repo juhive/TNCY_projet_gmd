@@ -1,11 +1,17 @@
 package view;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.jar.JarException;
+
+import org.json.simple.parser.ParseException;
 
 import controller.Couple;
 import controller.Disease;
 import controller.MainApp;
 import databases.HPOConnexion;
+import databases.OrphaDataBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,8 +24,8 @@ public class InHomePageController {
 	
 		@FXML
 	  	private TextField CS;
-		private String clinicalSign;
-	
+		private static String clinicalSign;
+					
 	    // Reference to the main application.
 	    private MainApp mainApp;
 
@@ -47,14 +53,16 @@ public class InHomePageController {
 	        this.mainApp = mainApp;
 	    }
 	    
-	    public void handleButtonSearch() {
-	    	String clinicalSign = CS.getText();
+	    public void handleButtonSearch() throws ParseException {
+	    	clinicalSign = CS.getText();
 	    	System.out.println(clinicalSign);
-	    	mainApp.showDisplayPage();	
+	    	
+	    	mainApp.showDisplayPage();
+	    	
 	    }
 	    		    
 	    public void handleButtonDrugSideEffect() {
-	    	String clinicalSign = CS.getText();
+	    	clinicalSign = CS.getText();
 	    	System.out.println(clinicalSign);
 	    	mainApp.showDisplaySideEffectPage();
 	    	
