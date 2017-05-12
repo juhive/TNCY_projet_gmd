@@ -18,18 +18,19 @@ public class CStoDrugs {
 	
 	public static ArrayList<Couple> ClinicalSignToBadMedecines(String clinicalSign) throws IOException, ParseException {
 		
-		ArrayList<Couple> first = meddraLabelTOatcLabel(clinicalSign);
+		//ArrayList<Couple> first = meddraLabelTOatcLabel(clinicalSign);
 		ArrayList<Couple> second = meddrasideeffectTOatclabel(clinicalSign);
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
-		
-		finalList.addAll(first);
+	
+		//finalList.addAll(first);
+
 		finalList.addAll(second);
-		
 		
 		return finalList;
 		
 	}
 	
+	/*
 	public static ArrayList<Couple> meddraLabelTOatcLabel(String clinicalSign) throws IOException, ParseException {
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
@@ -42,15 +43,18 @@ public class CStoDrugs {
 				String code_atc = stc.stitch_CpdID_to_codeATC(stitch_compound_id1);
 				
 				if (!code_atc.equals("no match")) {
-					finalList = atc.ATCSearchLabel(code_atc);
+					ArrayList<Couple> intermediaire = atc.ATCSearchLabel(code_atc);
+					finalList.addAll(intermediaire);
 					
 				} else {System.out.println("Sorry, no medicine matching your request !!!");}
 			} else {System.out.println("Sorry, no medicine matching your request !!");}
 		} else {System.out.println("Sorry, no medicine matching your request !");}
 		
+		System.out.println("ICI 6 " + finalList);
 		return finalList;
 		
 	}
+	*/
 	
 	public static ArrayList<Couple> meddrasideeffectTOatclabel(String clinicalSign) throws IOException, ParseException {
 		
@@ -62,8 +66,10 @@ public class CStoDrugs {
 				String code_atc = stc.stitch_CpdID_to_codeATC(stitch_compound_id1);
 				
 				if (!code_atc.equals("no match")) {
-					finalList = atc.ATCSearchLabel(code_atc);
+					ArrayList<Couple> intermediaire = atc.ATCSearchLabel(code_atc);
+					finalList.addAll(intermediaire);
 					
+
 				} else {System.out.println("Sorry, no medicine matching your request !!");}
 			} else {System.out.println("Sorry, no medicine matching your request !");}
 		
@@ -72,8 +78,7 @@ public class CStoDrugs {
 	
 	public static void main(String[] args) throws IOException, ParseException {
 
-		//ClinicalSignToBadMedecines("warts");
-		System.out.println(meddrasideeffectTOatclabel("warts"));
+		System.out.println(ClinicalSignToBadMedecines("warts"));
 	}
 
 }

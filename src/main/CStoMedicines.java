@@ -45,7 +45,8 @@ public class CStoMedicines {
 				  for (int i=0; i<stitch_compound_id.size(); i++) {
 				  		String code_atc = stc.stitch_CpdID_to_codeATC(stitch_compound_id.get(i));
 				  		if (!code_atc.equals("no match")) {
-				  		finalList = atc.ATCSearchLabel(code_atc);
+				  		ArrayList<Couple> intermediaire = atc.ATCSearchLabel(code_atc);
+				  		finalList.addAll(intermediaire);
 				  		}
 				  }
 				 
@@ -60,8 +61,7 @@ public class CStoMedicines {
 	
 	public static void main(String[] args) throws IOException, ParseException {
 
-		//ClinicalSignToGooodMedecines("Gut pain");
-		System.out.println(meddralabelTOatclabel("Pneumonia"));
+		System.out.println(ClinicalSignToGooodMedecines("pneumonia"));
 		
 	}
 	

@@ -41,33 +41,8 @@ public class MainApp extends Application {
      * @throws JarException 
      */
     public MainApp() {
-    
-    	drugSideEffectData.add(new DrugSideEffect("Cornelia", "Meier"));
-    	
-    	
-    	medecineData.add(new Medecine("Werner", "Meyer"));
-    	medecineData.add(new Medecine("Lydia", "Kunz"));
     	
     }
-
-    
-    /**
-     * Returns the data as an observable list of DrugSideEffect. 
-     * @return
-     */
-    public ObservableList<DrugSideEffect> getDrugSideEffectData() {
-        return drugSideEffectData;
-    } 
-    
-    /**
-     * Returns the data as an observable list of Medecine. 
-     * @return
-     */
-    public ObservableList<Medecine> getMedecineData() {
-        return medecineData;
-    }
-    
-    
 
     @Override
     public void start(Stage primaryStage) {

@@ -71,7 +71,7 @@ public class DisplayDrugSideEffectController {
      * @throws org.apache.lucene.queryparser.classic.ParseException
      */
     public void fillDrugData(String clinicalsign) throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException{
-    	//search medecine matching ti clinicalSign
+    	//search drug matching this clinicalSign
     	ArrayList<Couple> listDrugData = csTOdrug.ClinicalSignToBadMedecines(clinicalsign);    	
     	
     	for (int i=0; i<listDrugData.size(); i++ ) {
