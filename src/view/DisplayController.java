@@ -16,6 +16,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import main.CStoDisease;
 
 public class DisplayController {
 	
@@ -25,6 +28,8 @@ public class DisplayController {
     private TableColumn<Disease, String> diseaseColumn;
     @FXML
     private TableColumn<Disease, String> fromColumn;
+    @FXML
+    private Text searchingText;
  
     // Reference to the main application.
     private MainApp mainApp;
@@ -35,7 +40,7 @@ public class DisplayController {
     
     private InHomePageController hp = new InHomePageController();
     
-    private OrphaDataBase orpha = new OrphaDataBase();
+    private CStoDisease csTOdis = new CStoDisease();
     
     /**
      * The constructor.
@@ -51,13 +56,14 @@ public class DisplayController {
      * @throws IOException 
      * @throws MalformedURLException 
      * @throws JarException 
+     * @throws org.apache.lucene.queryparser.classic.ParseException 
      */
-    private void showDiseaseTable(ObservableList<Disease> diseaseData ) throws JarException, MalformedURLException, IOException, ParseException {
+    private void showDiseaseTable(ObservableList<Disease> diseaseData ) throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
     	if (diseaseData !=  null) {
     		fillDiseaseData(clinicalsign);
     		diseaseTable.setItems(diseaseData);
     	}
-    	else {}
+    	
     }
     
     /**POUR L'INSTANT "BRANCHÉ" AVEC ORPHADATA DIRECTEMENT
@@ -65,12 +71,16 @@ public class DisplayController {
      * @throws IOException 
      * @throws MalformedURLException 
      * @throws JarException 
+     * @throws org.apache.lucene.queryparser.classic.ParseException 
      * 
      */
-    public void fillDiseaseData(String clinicalsign) throws JarException, MalformedURLException, IOException, ParseException{
-    	ArrayList<Couple> listDiseaseData = orpha.CStoDiseases(clinicalsign);    	
+    public void fillDiseaseData(String clinicalsign) throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException{
+    	ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDisease(clinicalsign);    	
     	for (int i=0; i<listDiseaseData.size(); i++ ) {
     		diseaseData.add(new Disease(listDiseaseData.get(i).getDisease(), listDiseaseData.get(i).getDataBase()));
+    	}
+    	if (listDiseaseData.isEmpty()) {
+    		diseaseData.add(new Disease("No result", "No result"));
     	}
     }
     
@@ -81,14 +91,18 @@ public class DisplayController {
      * @throws IOException 
      * @throws MalformedURLException 
      * @throws JarException 
+     * @throws org.apache.lucene.queryparser.classic.ParseException 
      */
     @FXML
-    private void initialize() throws JarException, MalformedURLException, IOException, ParseException {
+    private void initialize() throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException {
     	clinicalsign = hp.getCS();
+    	
     	
         // Initialize the disease table with the two columns.
         diseaseColumn.setCellValueFactory(cellData -> cellData.getValue().diseaseProperty());
         fromColumn.setCellValueFactory(cellData -> cellData.getValue().fromProperty()); 
+        
+        searchingText.setText("Searching for : " + clinicalsign);
         
         showDiseaseTable(null);
         showDiseaseTable(diseaseData);

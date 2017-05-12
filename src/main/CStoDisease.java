@@ -1,11 +1,14 @@
 package main;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import controller.Couple;
+import databases.HPOConnexion;
+import databases.HPOSearch;
 import databases.OMIMIndexing;
 import databases.OMIMSearch;
 import databases.OrphaDataBase;
@@ -15,23 +18,37 @@ public class CStoDisease {
 	private static OrphaDataBase orphadb = new OrphaDataBase();
 	private static OMIMIndexing omimindex = new OMIMIndexing();
 	private static OMIMSearch omimdb = new OMIMSearch();
+	private static HPOConnexion hpocon = new HPOConnexion();
+	private static HPOSearch hposearch = new HPOSearch();
 	
-	
+	public CStoDisease() {}
 	
 public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) throws IOException, ParseException, org.json.simple.parser.ParseException {
 		
 		ArrayList<Couple> orphaList = new ArrayList<Couple>();
 		ArrayList<Couple> omimList = new ArrayList<Couple>();
+		ArrayList<Couple> hpoList = new ArrayList<Couple>();
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		//ORPHADATA
 		orphaList = orphadb.CStoDiseases(clinicalSign);
 		//OMIM
-		//omimindex.OMIMtxt();
+		File indexOmim = new File("indexes/omim/");
+		if (!indexOmim.exists()) {
+			omimindex.OMIMtxt();
+		}
 		omimList = omimdb.OMIMSearchDisease(clinicalSign);
+		//HPO
+		File indexHP = new File ("indexes/HPO/");
+		if (!indexHP.exists()) {
+			hpocon.HP_obo();
+		}
+		String idHP = hposearch.id_HPO_oboSearchid_HP(clinicalSign);
+		hpoList=hpocon.ToDiseaseLabel(idHP, 1);
 		
 		finalList.addAll(orphaList);
 		finalList.addAll(omimList);
+		finalList.addAll(hpoList);
 		
 		System.out.println(finalList);
 		return finalList;
@@ -40,7 +57,7 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 	
 	public static void main(String[] args) throws IOException, ParseException, org.json.simple.parser.ParseException {
 
-		ClinicalSignTosDisease("lack of visual");
+		ClinicalSignTosDisease("skull/cranial anomalies");
 		}
 	
 }

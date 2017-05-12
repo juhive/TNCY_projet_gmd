@@ -27,7 +27,7 @@ import controller.Couple;
 	public class OrphaDataBase {
 
 		public static void main(String[] args) throws JarException, MalformedURLException, IOException, ParseException {
-			CStoDiseases("Conjunctival injection/chemosis/red eye");
+			CStoDiseases("skull/cranial anoamlies");
 			//Skull/cranial anomalies
 			//Conjunctival injection/chemosis/red eye
 		}
@@ -51,19 +51,29 @@ import controller.Couple;
 				//get Clinical Sign Name
 				String CSname = (String) value.get("Name");
 				
-				if(clinicalSign.toLowerCase().equals(CSname.toLowerCase())) {
+				//clinicalSign.toLowerCase().equals(CSname.toLowerCase())
+				if(CSname.toLowerCase().contains(clinicalSign.toLowerCase())) {
 					
 					if (value.get("ClassificationDisease") instanceof JSONArray) {
 						JSONArray classificationDisease = (JSONArray) value.get("ClassificationDisease");
-						
-						ArrayList<Couple> listNameDisease = new ArrayList<Couple>();
 						
 						for(int j=0; j<classificationDisease.size() ; j++) {
 							JSONObject rowDisease = (JSONObject) classificationDisease.get(j);
 							String nameDisease = (String) rowDisease.get("Name");
 							Couple couple = new Couple(nameDisease, "OrphaData");
-							listNameDisease.add(couple);
-							finalListDisease = listNameDisease;
+							boolean flag =false;
+							
+							for (int k=0; k<finalListDisease.size(); k++ ) {
+								if (finalListDisease.get(k).equals(couple)) {
+									flag = true;
+									break;
+								}
+							}
+							if (!flag) {
+								finalListDisease.add(couple);
+								}
+							
+							
 						}
 						
 					}

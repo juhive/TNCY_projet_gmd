@@ -27,7 +27,7 @@ public class CStoDrugs {
 				String code_atc = stc.stitch_CpdID_to_codeATC(stitch_compound_id1);
 				
 				if (!code_atc.equals("no match")) {
-					medecine = atc.ATCSearchLabel(code_atc);
+					//A VOIR !medecine = atc.ATCSearchLabel(code_atc);
 					
 				} else {System.out.println("Sorry, no medicine matching your request !!!");}
 			} else {System.out.println("Sorry, no medicine matching your request !!");}

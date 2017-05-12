@@ -32,7 +32,8 @@ public class HPOConnexion {
 	public static void main(String[] args) {
 
 		//HPO_annotation();
-		HP_obo();
+		//HP_obo();
+		System.out.println(ToDiseaseLabel("HP:0000056", 1));
 	}
 
 	
@@ -87,7 +88,7 @@ public class HPOConnexion {
 		 */
 
 		String indexPath = "indexes/HPO/";
-		String docsPath = "resourcesFiles/HPO/hp_extrait.obo";
+		String docsPath = "resourcesFiles/HPO/hp.obo";
 
 		final File doc = new File(docsPath);
 
@@ -242,17 +243,17 @@ public class HPOConnexion {
 	 					diseaseLabel = diseaseLabel.substring(0, i);
 	 				}
 	 				diseaseLabel = diseaseLabel.toLowerCase();
-	 				Couple couple = new Couple(diseaseLabel, "OMIM");
+	 				Couple couple = new Couple(diseaseLabel, "OMIM via HPO");
 	 				ListDiseaseLabel.add(couple);
 	 			}
 	 			else if (diseaseDb.equals("ORPHA")) {
 	 				diseaseLabel = diseaseLabel.toLowerCase();
-	 				Couple couple = new Couple(diseaseLabel, "OrphaData");
+	 				Couple couple = new Couple(diseaseLabel, "OrphaData via HPO");
 	 				ListDiseaseLabel.add(couple);
 	 			}
 	 			else if (diseaseDb.equals("DECIPHER")) {
 	 				diseaseLabel = diseaseLabel.toLowerCase();
-	 				Couple couple = new Couple(diseaseLabel, "Decipher");
+	 				Couple couple = new Couple(diseaseLabel, "Decipher via HPO");
 	 				ListDiseaseLabel.add(couple);
 	 			}				
 	 			

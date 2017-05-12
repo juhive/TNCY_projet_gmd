@@ -35,5 +35,14 @@ public class Couple {
 		}
 		else {return null;}
 	}
+	
+	public boolean equals(Couple couple) {
+		if(this.getDisease().equals(couple.getDisease()) && this.getDataBase().equals(couple.getDataBase())) {
+			return true;
+		}
+		return false;
+	}
+	
+
 
 }

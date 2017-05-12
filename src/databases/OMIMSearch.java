@@ -48,7 +48,7 @@ public class OMIMSearch {
 		String in = CStosearch;
 		
 		if (in.equals("no match")){
-			return new ArrayList<Couple>();
+			return disease2;
 		}
 		
 		
@@ -66,10 +66,14 @@ public class OMIMSearch {
 		ScoreDoc[] hits = results.scoreDocs;
 		int numTotalHits = results.totalHits;
 		//System.out.println(numTotalHits + " total matching documents\n");
+		if (numTotalHits == 0) {
+			return disease2;
+		}
 
 		hits = searcher.search(query, numTotalHits).scoreDocs;
 		//System.out.println("Number of hits: " + hits.length);
-
+		
+		
 		int start = 0;
 		Integer end = Math.min(hits.length, start + hitsPerPage);
 		for (int i = start; i < hits.length; i++) {
