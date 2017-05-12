@@ -137,6 +137,7 @@ public class HPOConnexion {
 				} 
 				
 				Document doc =null;
+				int Pos=0;
 
 				while((ligne=br.readLine())!=null){
 					if(ligne.startsWith("[Term]")){
@@ -145,6 +146,7 @@ public class HPOConnexion {
 						doc = new Document();
 						ligne=br.readLine();
 						elementsAjoute++;
+						Pos =0;
 					}
 					if(ligne.startsWith("id:")){
 						String id_HP = ligne.substring(7);
@@ -168,10 +170,12 @@ public class HPOConnexion {
 							}
 						}
 						synonym = synonym.substring(1, j);
-						System.out.println("Syn = "+synonym);
 						ligne=br.readLine();
-						doc.add(new StringField("synonym", synonym, Field.Store.YES)); 
-					}
+						String syn = "synonym".concat(Integer.toString(Pos));
+						System.out.println(syn+" = "+synonym);
+						doc.add(new TextField(syn, synonym, Field.Store.YES));
+						Pos++;					
+						}
 					writer.addDocument(doc);
 				}br.close();
 
