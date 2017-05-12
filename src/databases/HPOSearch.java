@@ -27,7 +27,7 @@ public class HPOSearch {
 		
 	}
 
-	private HPOSearch() {}
+	public HPOSearch() {}
 
 	public static String id_HPO_oboSearchid_HP(String nameSearch) throws IOException, ParseException{
 		String id_HP=null;

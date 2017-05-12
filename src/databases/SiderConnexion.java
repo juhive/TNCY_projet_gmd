@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+import java.util.ArrayList;
 import java.sql.SQLException;
 
 public class SiderConnexion {
@@ -20,7 +20,12 @@ public class SiderConnexion {
 	public static void main(String[] args) {
 
 		//SearchMeddraSE_cuiToCpdId1("C0000737");
-		//SearchMeddraToMeddraAll("C0000727");
+		ArrayList<String> ar = SearchMeddraToMeddraAll("C0032285");
+		System.out.println(ar.toString());
+		//tableMeddraIndication();
+		
+		//String f = SearchMeddraCUIFromLABEL("pneumonia");
+		//System.out.println(f);
 	}
 
 	/**
@@ -84,8 +89,8 @@ public class SiderConnexion {
 	 * @param CUI
 	 * @return compound_id from meddra_all_indications
 	 */
-	public static String SearchMeddraToMeddraAll(String CUI){
-		String compound_id = null;
+	public static ArrayList<String> SearchMeddraToMeddraAll(String CUI){
+		ArrayList<String> compound_id = new ArrayList<String>();
 		try {
 			Class.forName(DRIVER);
 			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
@@ -98,9 +103,9 @@ public class SiderConnexion {
 			ResultSet res = prep1.executeQuery();
 			
 			while(res.next()){
-				compound_id = res.getString("stitch_compound_id");
-				String CUIf = res.getString("cui");
-				//System.out.println(compound_id+" = "+CUIf);
+				if(!compound_id.contains(res.getString("stitch_compound_id"))){
+					compound_id.add(res.getString("stitch_compound_id"));
+				}
 			}
 			res.close();
 			con.close();
