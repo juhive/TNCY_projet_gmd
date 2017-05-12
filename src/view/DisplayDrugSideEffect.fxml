@@ -15,7 +15,7 @@
          <center>
             <TableView fx:id="drugTable" prefHeight="356.0" prefWidth="600.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="drugColumn" prefWidth="75.0" text="Possible Drug causing side effect" />
+                <TableColumn fx:id="drugColumn" prefWidth="75.0" text="Possible medecines causing side effect" />
                 <TableColumn fx:id="fromColumn2" prefWidth="75.0" text="From (DataBase)" />
               </columns>
                <columnResizePolicy>
@@ -24,7 +24,7 @@
             </TableView>
          </center>
          <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Petite phrase mignonne" textAlignment="CENTER" wrappingWidth="598.38671875" BorderPane.alignment="CENTER">
+            <Text fx:id="searchingText3" strokeType="OUTSIDE" strokeWidth="0.0" text="Petite phrase mignonne" textAlignment="CENTER" wrappingWidth="598.38671875" BorderPane.alignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

@@ -24,7 +24,7 @@
             </TableView>
          </center>
          <top>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Petite phrase mignonne" textAlignment="CENTER" wrappingWidth="598.38671875" BorderPane.alignment="CENTER">
+            <Text fx:id="searchingText2" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="598.38671875" BorderPane.alignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

@@ -66,7 +66,7 @@ public class DisplayController {
     	
     }
     
-    /**POUR L'INSTANT "BRANCHÉ" AVEC ORPHADATA DIRECTEMENT
+    /**
      * @throws ParseException 
      * @throws IOException 
      * @throws MalformedURLException 

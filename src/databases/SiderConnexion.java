@@ -169,6 +169,48 @@ public class SiderConnexion {
 		return stitch_compound_id1;
 
 	}
+	
+	/**
+	 * 
+	 * @param side effect term from meddra_all_se
+	 * @return Stitch_compound_id1 from meddra_all_se
+	 */
+	public static String meddraSE_sideEffect_ToCpdId1(String sideEffect){
+		String stitch_compound_id1 = null;
+		try {
+			Class.forName(DRIVER);
+			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
+			String aQuery = "SELECT stitch_compound_id1 FROM meddra_all_se WHERE side_effect_name = ?";;
+			PreparedStatement prep1 = con.prepareStatement(aQuery);
+			prep1.setString(1,sideEffect);
+			ResultSet res = prep1.executeQuery();
+			
+			while(res.next()){
+				stitch_compound_id1 = res.getString("stitch_compound_id1");
+			}
+			res.close();
+			con.close();
+		}
+		catch (ClassNotFoundException e){
+			System.err.println("Could not load JDBC driver");
+			System.out.println("Exception: " + e);
+			e.printStackTrace();
+		}
+		catch (SQLException ex) {
+			System.err.println("SQL Exception information");
+			while(ex!=null){
+				System.err.println("" + ex.getMessage());
+				System.err.println("" + ex.getSQLState());
+				System.err.println("" + ex.getErrorCode());
+				ex.printStackTrace();
+				ex = ex.getNextException();
+			}
+		}
+		System.out.println(stitch_compound_id1);
+		return stitch_compound_id1;
+
+	}
+	
 
 	public static void tableMeddraIndication(){
 		try {

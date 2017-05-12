@@ -29,9 +29,9 @@
       </FlowPane>
       <FlowPane alignment="CENTER" layoutY="179.0" prefHeight="171.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleButtonSearch" text="Search Diseases" />
-            <Button mnemonicParsing="false" onAction="#handleButtonMedecine" text="Search cure" />
-            <Button mnemonicParsing="false" onAction="#handleButtonDrugSideEffect" text="Search side effect" />
+            <Button mnemonicParsing="false" onAction="#handleButtonSearch" text="Search for diseases causing this sign" />
+            <Button mnemonicParsing="false" onAction="#handleButtonMedecine" text="Search for medecines curing this sign" />
+            <Button mnemonicParsing="false" onAction="#handleButtonDrugSideEffect" text="Search for medecines causing this side effect" />
          </children>
       </FlowPane>
    </children>
