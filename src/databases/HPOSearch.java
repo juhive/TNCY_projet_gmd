@@ -146,7 +146,7 @@ public class HPOSearch {
 
 				
 			};
-			return id_HP;
+			return ("HP:"+id_HP);
 
 				
 		}
