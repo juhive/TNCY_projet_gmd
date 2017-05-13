@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.jar.JarException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.simple.parser.ParseException;
 
@@ -75,13 +77,62 @@ public class DisplayController {
      * 
      */
     public void fillDiseaseData(String clinicalsign) throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException{
-    	ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDisease(clinicalsign);    	
-    	for (int i=0; i<listDiseaseData.size(); i++ ) {
-    		diseaseData.add(new Disease(listDiseaseData.get(i).getDisease(), listDiseaseData.get(i).getDataBase()));
+    	String cs1;
+    	String cs2;
+    	Pattern pattern = Pattern.compile(".*ET.*");
+    	Matcher matcher = pattern.matcher(clinicalsign);
+    	Pattern pattern2 = Pattern.compile(".*OU.*");
+    	Matcher matcher2 = pattern2.matcher(clinicalsign);
+    	
+    	
+    	if (matcher.find()) {
+    		int length = clinicalsign.length();
+			int i = 1;
+			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'E' && i < length-1) {
+					i++;
+				}
+			cs1 = clinicalsign.substring(0, i-1);
+			cs2 = clinicalsign.substring(i+2);
+			
+			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
+	    		diseaseData.add(new Disease(listDiseaseData.get(l).getDisease(), listDiseaseData.get(l).getDataBase()));
+	    	}
+	    	if (listDiseaseData.isEmpty()) {
+	    		diseaseData.add(new Disease("No result", "No result"));
+	    	}
+		}
+    	
+    	
+    	if (matcher2.find()) {
+    		int length = clinicalsign.length();
+			int i = 1;
+			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'O' && i < length-1) {
+					i++;
+				}
+			cs1 = clinicalsign.substring(0, i-1);
+			cs2 = clinicalsign.substring(i+2);
+			
+			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
+	    	for (int j=0; j<listDiseaseData.size(); j++ ) {
+	    		diseaseData.add(new Disease(listDiseaseData.get(j).getDisease(), listDiseaseData.get(j).getDataBase()));
+	    	}
+	    	if (listDiseaseData.isEmpty()) {
+	    		diseaseData.add(new Disease("No result", "No result"));
+	    	}
+		}
+    	
+    	
+    	if (!matcher.find() && !matcher2.find()) {
+    		ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDisease(clinicalsign);    	
+	    	for (int k=0; k<listDiseaseData.size(); k++ ) {
+	    		diseaseData.add(new Disease(listDiseaseData.get(k).getDisease(), listDiseaseData.get(k).getDataBase()));
+	    	}
+	    	if (listDiseaseData.isEmpty()) {
+	    		diseaseData.add(new Disease("No result", "No result"));
+	    	}
     	}
-    	if (listDiseaseData.isEmpty()) {
-    		diseaseData.add(new Disease("No result", "No result"));
-    	}
+    	
     }
     
     /**

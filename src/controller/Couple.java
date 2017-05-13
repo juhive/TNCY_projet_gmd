@@ -43,6 +43,20 @@ public class Couple {
 		return false;
 	}
 	
+	public boolean equalsDisease(Couple couple) {
+		if(this.getDisease().equals(couple.getDisease())) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean equalsDataBase(Couple couple) {
+		if(this.getDataBase().equals(couple.getDataBase())) {
+			return true;
+		}
+		return false;
+	}
+	
 
 
 }

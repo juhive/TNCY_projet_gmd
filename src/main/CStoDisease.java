@@ -51,7 +51,7 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		hpoList=hpocon.ToDiseaseLabel(idHP, 1);
 		hpoList2=hpocon.ToDiseaseLabel(id_HP, 1);
 		
-		
+		System.out.println(id_HP);
 		finalList.addAll(orphaList);
 		finalList.addAll(omimList);
 		finalList.addAll(hpoList);
@@ -59,12 +59,47 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 				
 		return finalList;
 	}
+
+	public static ArrayList<Couple> ClinicalSignTosDiseaseET(String cs1, String cs2) throws IOException, ParseException, org.json.simple.parser.ParseException{
+		ArrayList<Couple> list1 = ClinicalSignTosDisease(cs1);
+		ArrayList<Couple> list2 = ClinicalSignTosDisease(cs2);
+		ArrayList<Couple> listFinal = new ArrayList<Couple>();
+		
+		for (int i=0; i<list1.size(); i++) {
+			for (int j=0; i<list2.size(); i++) {
+				
+				if (list1.get(i).equalsDisease(list2.get(j))) {
+					if (list1.get(i).equalsDataBase(list2.get(j))) {
+						listFinal.add(list1.get(i));
+					}
+					else {
+						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " et " + list2.get(j).getDataBase());
+						listFinal.add(couple);
+					}
+				}
+				
+				
+			}
+		}
+		System.out.println(listFinal);
+		return listFinal;
+	}
+	
+	public static ArrayList<Couple> ClinicalSignTosDiseaseOU(String cs1, String cs2) throws IOException, ParseException, org.json.simple.parser.ParseException {
+		ArrayList<Couple> list1 = ClinicalSignTosDisease(cs1);
+		ArrayList<Couple> list2 = ClinicalSignTosDisease(cs2);
+		ArrayList<Couple> listFinal = new ArrayList<Couple>();
+		listFinal.addAll(list1);
+		listFinal.addAll(list2);
+		//System.out.println(listFinal);
+		return listFinal;
+	}
 	
 	
 	public static void main(String[] args) throws IOException, ParseException, org.json.simple.parser.ParseException {
 
-		//ClinicalSignTosDisease("Abnormality of the clit");
-		System.out.println(hposearch.id_HPO_annotationSearchid_HP("Abnormality of the clit"));
+		ClinicalSignTosDiseaseET("Abnormality of the clit", "skull/cranial anomalies");
+		
 		}
 	
 }

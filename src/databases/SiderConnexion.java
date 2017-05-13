@@ -20,12 +20,13 @@ public class SiderConnexion {
 	public static void main(String[] args) {
 
 		//SearchMeddraSE_cuiToCpdId1("C0000737");
-		ArrayList<String> ar = SearchMeddraToMeddraAll("C0032285");
-		System.out.println(ar.toString());
-		//tableMeddraIndication();
-		
+		//ArrayList<String> ar = SearchMeddraToMeddraAll("C0032285");
+		//System.out.println(ar.toString());
+		tablemeddraSe();
 		//String f = SearchMeddraCUIFromLABEL("pneumonia");
 		//System.out.println(f);
+		//sidder_meddra_all_se_compound_id1();
+
 	}
 
 	/**
@@ -211,6 +212,47 @@ public class SiderConnexion {
 
 	}
 	
+	/**
+	 * 
+	 * @return ArrayList<String> of all stitch_compound_id1 from sidder meddra all se
+	 */
+	public static ArrayList<String> sidder_meddra_all_se_compound_id1(){
+		ArrayList<String> stitch_compound_id1_list = new ArrayList<String>();
+		String stitch_compound_id1 = null;
+		try {
+			Class.forName(DRIVER);
+			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
+			String aQuery = "SELECT stitch_compound_id1 FROM meddra_all_se";;
+			PreparedStatement prep1 = con.prepareStatement(aQuery);
+			ResultSet res = prep1.executeQuery();
+			
+			while(res.next()){
+				stitch_compound_id1 = res.getString("stitch_compound_id1");
+				System.out.println(stitch_compound_id1);
+				stitch_compound_id1_list.add(stitch_compound_id1);
+			}
+			res.close();
+			con.close();
+		}
+		catch (ClassNotFoundException e){
+			System.err.println("Could not load JDBC driver");
+			System.out.println("Exception: " + e);
+			e.printStackTrace();
+		}
+		catch (SQLException ex) {
+			System.err.println("SQL Exception information");
+			while(ex!=null){
+				System.err.println("" + ex.getMessage());
+				System.err.println("" + ex.getSQLState());
+				System.err.println("" + ex.getErrorCode());
+				ex.printStackTrace();
+				ex = ex.getNextException();
+			}
+		}
+		//System.out.println(stitch_compound_id1);
+		return stitch_compound_id1_list;
+
+	}
 
 	public static void tableMeddraIndication(){
 		try {
@@ -259,20 +301,20 @@ public class SiderConnexion {
 		try {
 			Class.forName(DRIVER);
 			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
-			String myQuery = "SELECT * " +				//requete
+			String myQuery = "SELECT stitch_compound_id1 " +				//requete
 					"FROM meddra_all_se" ;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery(myQuery);
 
 			while(res.next()){
 				String stitch_id1= res.getString("stitch_compound_id1");
-				String stitch_id2= res.getString("stitch_compound_id2");
-				String CUI = res.getString("cui");
-				String concept_type= res.getString("meddra_concept_type");
-				String cui_of_meddra_term= res.getString("cui_of_meddra_term");
-				String side_effect= res.getString("side_effect_name");
+				//String stitch_id2= res.getString("stitch_compound_id2");
+				//String CUI = res.getString("cui");
+				//String concept_type= res.getString("meddra_concept_type");
+				//String cui_of_meddra_term= res.getString("cui_of_meddra_term");
+				//String side_effect= res.getString("side_effect_name");
 				System.out.println("");
-				System.out.println(stitch_id1+" ; "+stitch_id2+" ; "+CUI+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+side_effect);
+				System.out.println(stitch_id1); //+" ; "+stitch_id2+" ; "+CUI+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+side_effect);
 			}
 			res.close();
 			st.close();
