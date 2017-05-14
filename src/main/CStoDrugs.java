@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,6 +8,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 
 import controller.Couple;
 import databases.ATCSearch;
+import databases.OMIMIndexing;
 import databases.SiderConnexion;
 import databases.StitchConnexion;
 
@@ -47,6 +49,11 @@ public class CStoDrugs {
 	 */
 	public static ArrayList<Couple> meddraLabelTOatcLabel(String clinicalSign) throws IOException, ParseException {
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
+		
+		File indexStitch = new File("indexes/Stitch/");
+		if (!indexStitch.exists()) {
+			StitchConnexion.StitchIndex();
+		}
 		
 		String cui_meddra = SiderConnexion.SearchMeddraCUIFromLABEL(clinicalSign);
 		

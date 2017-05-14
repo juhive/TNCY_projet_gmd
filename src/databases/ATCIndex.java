@@ -24,21 +24,21 @@ public class ATCIndex {
 	private ATCIndex() {}
 
 	/** Index all text files under a directory. */
-	public static void main(String[] args) {
+	public static void AtcIndex() {
 
 		String indexPath = "indexes/ATC";
-		String dbPath = "resourcesFiles/ATC/br08303.keg";  //à mettre dans ressourcesFile  
+		String dbPath = "resourcesFiles/ATC/br08303.keg";  
 
 
 		final File dbFile = new File(dbPath);
 		if (!dbFile.exists()) {
-			System.out.println("the file '" +dbFile+ "' does not exist or is not readable, please check the path");
+			//System.out.println("the file '" +dbFile+ "' does not exist or is not readable, please check the path");
 			System.exit(1);
 		}
 
 		Date start = new Date();
 		try {
-			System.out.println("Indexing to directory '" + indexPath + "'...");
+			//System.out.println("Indexing to directory '" + indexPath + "'...");
 
 			Directory dir = FSDirectory.open(Paths.get(indexPath));
 			Analyzer analyzer = new StandardAnalyzer();
@@ -54,7 +54,7 @@ public class ATCIndex {
 			writer.close();
 
 			Date end = new Date();
-			System.out.println(end.getTime() - start.getTime() + " total milliseconds");
+			//System.out.println(end.getTime() - start.getTime() + " total milliseconds");
 
 		} catch (IOException e) {
 			System.out.println(" caught a " + e.getClass() +
@@ -80,12 +80,12 @@ public class ATCIndex {
 					if (line.startsWith("E")){
 
 						Document doc = new Document(); 
-						//on transforme la ligne en chaîne de caractere
-						System.out.println("code_ATC = "+line.substring(8,16)+" | label = "+line.substring(17));
-						doc.add(new TextField ("code_ATC", line.substring(8,16), Field.Store.YES));		//on prend les 7 premiers car (taille code ATC)
+						//line to char sequence
+						//System.out.println("code_ATC = "+line.substring(8,16)+" | label = "+line.substring(17));
+						doc.add(new TextField ("code_ATC", line.substring(8,16), Field.Store.YES));		//7 char (length code ATC)
 
 
-						doc.add(new TextField("label", line.substring(17), Field.Store.YES));			//on prends le reste de la chaîne
+						doc.add(new TextField("label", line.substring(17), Field.Store.YES));			//whats left of the string
 						line =br.readLine();
 						writer.addDocument(doc);
 
