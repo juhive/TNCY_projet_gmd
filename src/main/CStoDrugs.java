@@ -12,15 +12,18 @@ import databases.StitchConnexion;
 
 public class CStoDrugs {
 	
-	private static SiderConnexion sc = new SiderConnexion();
-	private static StitchConnexion stc = new StitchConnexion();
-	private static ATCSearch atc = new ATCSearch();
-	
 	public static void main(String[] args) throws IOException, ParseException {
 
 		System.out.println(ClinicalSignToBadMedecines("warts"));
 	}
 	
+	/**
+	 * Return a list of all medicine creating the clinicalSign
+	 * @param clinicalSign
+	 * @return ArrayList<Couple>
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public static ArrayList<Couple> ClinicalSignToBadMedecines(String clinicalSign) throws IOException, ParseException {
 		
 		ArrayList<Couple> first = meddraLabelTOatcLabel(clinicalSign);
@@ -35,53 +38,61 @@ public class CStoDrugs {
 	}
 	
 	
+	/**
+	 * return atc label from a meddra label
+	 * @param clinicalSign
+	 * @returnArrayList<Couple>
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public static ArrayList<Couple> meddraLabelTOatcLabel(String clinicalSign) throws IOException, ParseException {
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
-		String cui_meddra = sc.SearchMeddraCUIFromLABEL(clinicalSign);
+		String cui_meddra = SiderConnexion.SearchMeddraCUIFromLABEL(clinicalSign);
 		
 		if (cui_meddra != null) {
-			String stitch_compound_id1 = sc.SearchMeddraSE_cuiToCpdId1(cui_meddra);
+			String stitch_compound_id1 = SiderConnexion.SearchMeddraSE_cuiToCpdId1(cui_meddra);
 			
 			if (stitch_compound_id1 != null) {
-				String code_atc = stc.stitch_CpdID_to_codeATC(stitch_compound_id1);
+				String code_atc = StitchConnexion.stitch_CpdID_to_codeATC(stitch_compound_id1);
 				
 				if (!code_atc.equals("no match")) {
-					ArrayList<Couple> intermediaire = atc.ATCSearchLabel(code_atc);
+					ArrayList<Couple> intermediaire = ATCSearch.ATCSearchLabel(code_atc);
 					finalList.addAll(intermediaire);
 					
-				} else {System.out.println("Sorry, no medicine matching your request !!!");}
-			} else {System.out.println("Sorry, no medicine matching your request !!");}
-		} else {System.out.println("Sorry, no medicine matching your request !");}
-		
-		System.out.println("ICI 6 " + finalList);
-		return finalList;
-		
-	}
-	
-	
-	public static ArrayList<Couple> meddrasideeffectTOatclabel(String clinicalSign) throws IOException, ParseException {
-		
-		 ArrayList<Couple> finalList = new ArrayList<Couple>();
-		
-		String stitch_compound_id1 = sc.meddraSE_sideEffect_ToCpdId1(clinicalSign);
-				
-			if (stitch_compound_id1 != null) {
-				String code_atc = stc.stitch_CpdID_to_codeATC(stitch_compound_id1);
-				
-				if (!code_atc.equals("no match")) {
-					ArrayList<Couple> intermediaire = atc.ATCSearchLabel(code_atc);
-					finalList.addAll(intermediaire);
-					
-
-				} else {System.out.println("Sorry, no medicine matching your request !!");}
-			} else {System.out.println("Sorry, no medicine matching your request !");}
+				}
+			}
+		}
 		
 		return finalList;
 	}
 	
 	/**
-	 * AND fonction 
+	 * return atc label from a side effect (in meddra_se)
+	 * @param clinicalSign
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public static ArrayList<Couple> meddrasideeffectTOatclabel(String clinicalSign) throws IOException, ParseException {
+		
+		 ArrayList<Couple> finalList = new ArrayList<Couple>();
+		
+		String stitch_compound_id1 = SiderConnexion.meddraSE_sideEffect_ToCpdId1(clinicalSign);
+				
+			if (stitch_compound_id1 != null) {
+				String code_atc = StitchConnexion.stitch_CpdID_to_codeATC(stitch_compound_id1);
+				
+				if (!code_atc.equals("no match")) {
+					ArrayList<Couple> intermediaire = ATCSearch.ATCSearchLabel(code_atc);
+					finalList.addAll(intermediaire);
+				} 
+			}
+		return finalList;
+	}
+	
+	/**
+	 * AND function 
 	 * @param cs1
 	 * @param cs2
 	 * @return
@@ -110,7 +121,6 @@ public class CStoDrugs {
 				
 			}
 		}
-		System.out.println(listFinal);
 		return listFinal;
 	}
 	
@@ -127,8 +137,19 @@ public class CStoDrugs {
 		ArrayList<Couple> list1 = ClinicalSignToBadMedecines(cs1);
 		ArrayList<Couple> list2 = ClinicalSignToBadMedecines(cs2);
 		ArrayList<Couple> listFinal = new ArrayList<Couple>();
-		listFinal.addAll(list1);
-		listFinal.addAll(list2);
+		
+		for (int i=0; i<list1.size(); i++) {
+			for (int j=0; j<list2.size(); j++) {
+				
+				if (list1.get(i).equalsDisease(list2.get(j))) {
+					if (list1.get(i).equalsDataBase(list2.get(j))) {listFinal.add(list1.get(i));}
+					else {
+						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " or " + list2.get(j).getDataBase());
+						listFinal.add(couple);}
+				}
+			}
+		}
+		
 		return listFinal;
 	}
 

@@ -34,7 +34,6 @@ public class DisplayDrugSideEffectController {
     private String clinicalsign;
     private ObservableList<DrugSideEffect> drugSideEffectData = FXCollections.observableArrayList();
     private InHomePageController hp = new InHomePageController();
-    private CStoDrugs csTOdrug = new CStoDrugs();
     private MainApp mainApp;
     
     /**
@@ -88,13 +87,16 @@ public class DisplayDrugSideEffectController {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			cs2 = clinicalsign.substring(i+4);
+			if (clinicalsign.substring(i).length() > 3) {
+				cs2 = clinicalsign.substring(i+4);
+			}
+			else {cs2 = null;}
 			
-			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
-	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
-	    		drugSideEffectData.add(new DrugSideEffect(listDiseaseData.get(l).getDisease(), listDiseaseData.get(l).getDataBase()));
+			ArrayList<Couple> listDrugData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+	    	for (int l=0; l<listDrugData.size(); l++ ) {
+	    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(l).getDisease(), listDrugData.get(l).getDataBase()));
 	    	}
-	    	if (listDiseaseData.isEmpty()) {listVide = true;}
+	    	if (listDrugData.isEmpty()) {listVide = true;}
 		}
     	
     	
@@ -107,15 +109,14 @@ public class DisplayDrugSideEffectController {
 			cs1 = clinicalsign.substring(0, i-1);
 			cs2 = clinicalsign.substring(i+2);
 			
-			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
-	    	for (int j=0; j<listDiseaseData.size(); j++ ) {
-	    		drugSideEffectData.add(new DrugSideEffect(listDiseaseData.get(j).getDisease(), listDiseaseData.get(j).getDataBase()));
+			ArrayList<Couple> listDrugData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
+	    	for (int j=0; j<listDrugData.size(); j++ ) {
+	    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(j).getDisease(), listDrugData.get(j).getDataBase()));
 	    	}
-	    	if (listDiseaseData.isEmpty()) {listVide = true;}
+	    	if (listDrugData.isEmpty()) {listVide = true;}
 		}
     	
     	else {
-    	//search drug matching this clinicalSign
 	    	ArrayList<Couple> listDrugData = CStoDrugs.ClinicalSignToBadMedecines(clinicalsign);    	
 	    	
 	    	for (int i=0; i<listDrugData.size(); i++ ) {

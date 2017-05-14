@@ -94,10 +94,3 @@ import controller.Couple;
 	    }
 	      
 }
-
-		
-		
-		
-	
-
-

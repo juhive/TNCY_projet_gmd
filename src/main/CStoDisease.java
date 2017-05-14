@@ -14,13 +14,7 @@ import databases.OMIMSearch;
 import databases.OrphaDataBase;
 
 public class CStoDisease {
-	
-	private static OrphaDataBase orphadb = new OrphaDataBase();
-	private static OMIMIndexing omimindex = new OMIMIndexing();
-	private static OMIMSearch omimdb = new OMIMSearch();
-	private static HPOConnexion hpocon = new HPOConnexion();
-	private static HPOSearch hposearch = new HPOSearch();
-	
+
 	public CStoDisease() {}
 
 	/**
@@ -40,26 +34,25 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		//ORPHADATA
-		orphaList = orphadb.CStoDiseases(clinicalSign);
+		orphaList = OrphaDataBase.CStoDiseases(clinicalSign);
 		
 		//OMIM
 		File indexOmim = new File("indexes/omim/");
 		if (!indexOmim.exists()) {
-			omimindex.OMIMtxt();
+			OMIMIndexing.OMIMtxt();
 		}
-		omimList = omimdb.OMIMSearchDisease(clinicalSign);
+		omimList = OMIMSearch.OMIMSearchDisease(clinicalSign);
 		
 		//HPO
 		File indexHP = new File ("indexes/HPO/");
 		if (!indexHP.exists()) {
-			hpocon.HP_obo();
+			HPOConnexion.HP_obo();
 		}
-		String idHP = hposearch.id_HPO_oboSearchid_HP(clinicalSign);
-		String id_HP = hposearch.id_HPO_annotationSearchid_HP(clinicalSign);
-		hpoList=hpocon.ToDiseaseLabel(idHP, 1);
-		hpoList2=hpocon.ToDiseaseLabel(id_HP, 1);
+		String idHP = HPOSearch.id_HPO_oboSearchid_HP(clinicalSign);
+		String id_HP = HPOSearch.id_HPO_annotationSearchid_HP(clinicalSign);
+		hpoList=HPOConnexion.ToDiseaseLabel(idHP, 1);
+		hpoList2=HPOConnexion.ToDiseaseLabel(id_HP, 1);
 		
-		System.out.println(id_HP);
 		finalList.addAll(orphaList);
 		finalList.addAll(omimList);
 		finalList.addAll(hpoList);
@@ -69,7 +62,7 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 	}
 
 	/**
-	 * AND fonction 
+	 * AND function 
 	 * @param cs1
 	 * @param cs2
 	 * @return
@@ -98,7 +91,6 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 				
 			}
 		}
-		System.out.println(listFinal);
 		return listFinal;
 	}
 	
@@ -115,9 +107,19 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		ArrayList<Couple> list1 = ClinicalSignTosDisease(cs1);
 		ArrayList<Couple> list2 = ClinicalSignTosDisease(cs2);
 		ArrayList<Couple> listFinal = new ArrayList<Couple>();
-		listFinal.addAll(list1);
-		listFinal.addAll(list2);
-		//System.out.println(listFinal);
+		
+		for (int i=0; i<list1.size(); i++) {
+			for (int j=0; j<list2.size(); j++) {
+				
+				if (list1.get(i).equalsDisease(list2.get(j))) {
+					if (list1.get(i).equalsDataBase(list2.get(j))) {listFinal.add(list1.get(i));}
+					else {
+						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " or " + list2.get(j).getDataBase());
+						listFinal.add(couple);}
+				}
+			}
+		}
+
 		return listFinal;
 	}
 	

@@ -36,7 +36,6 @@ public class DisplayController {
     private String clinicalsign;
     private ObservableList<Disease> diseaseData = FXCollections.observableArrayList();
     private InHomePageController hp = new InHomePageController();
-    private CStoDisease csTOdis = new CStoDisease();
     
     /**
      * The constructor.
@@ -86,7 +85,11 @@ public class DisplayController {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			cs2 = clinicalsign.substring(i+4);
+			if (clinicalsign.substring(i).length() > 3) {
+				cs2 = clinicalsign.substring(i+4);
+			}
+			else {cs2 = null;}
+			
 			
 			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
 	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
@@ -163,6 +166,9 @@ public class DisplayController {
         this.mainApp = mainApp;
     }
     
+    /**
+     * handle button back
+     */
     public void handleButtonBack() {
     	mainApp.showHomePage();
     	
