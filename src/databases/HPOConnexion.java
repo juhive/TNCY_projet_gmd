@@ -55,8 +55,8 @@ public class HPOConnexion {
 				String disease_label= res.getString("disease_label");
 				String sign_id= res.getString("sign_id");
 				String disease_db_and_id= res.getString("disease_db_and_id");
-				System.out.println("");
-				System.out.println(disease_label + " ; " + sign_id + " ; " + disease_db_and_id  );
+				//System.out.println("");
+				//System.out.println(disease_label + " ; " + sign_id + " ; " + disease_db_and_id  );
 			}
 			res.close();
 			st.close();
@@ -100,7 +100,7 @@ public class HPOConnexion {
 		Date start = new Date();
 
 		try {
-			System.out.println("Indexation in directory '" + indexPath + "' ...");
+			//System.out.println("Indexation in directory '" + indexPath + "' ...");
 
 			Directory dir = FSDirectory.open(Paths.get(indexPath));
 			Analyzer analyzer = new StandardAnalyzer();
@@ -113,8 +113,8 @@ public class HPOConnexion {
 			writer.close();
 
 			Date end = new Date();
-			System.out.println("en " + (end.getTime() - start.getTime()) + " millisecondes" +
-					"\nIndexation ended");
+			//System.out.println("en " + (end.getTime() - start.getTime()) + " millisecondes" +
+			//		"\nIndexation ended");
 		} catch (IOException e) {
 			System.out.println(" caught a " + e.getClass() +
 					"\n with message: " + e.getMessage());
@@ -142,7 +142,7 @@ public class HPOConnexion {
 				while((ligne=br.readLine())!=null){
 					if(ligne.startsWith("[Term]")){
 						//new Doc is created because new medicine
-						System.out.println("-NEW------");
+						//System.out.println("-NEW------");
 						doc = new Document();
 						ligne=br.readLine();
 						elementsAjoute++;
@@ -150,13 +150,13 @@ public class HPOConnexion {
 					}
 					if(ligne.startsWith("id:")){
 						String id_HP = ligne.substring(7);
-						System.out.println("IDHP ="+id_HP);
+						//System.out.println("IDHP ="+id_HP);
 						ligne=br.readLine();
 						doc.add(new TextField("id_HP", id_HP, Field.Store.YES)); //Analyse et Indexe
 					}
 					if(ligne.startsWith("name:")){
 						String name = ligne.substring(6);
-						System.out.println("name ="+name);
+						//System.out.println("name ="+name);
 						ligne=br.readLine();
 						doc.add(new TextField("name", name, Field.Store.YES)); //Analyse et Indexe
 					}
@@ -172,7 +172,7 @@ public class HPOConnexion {
 						synonym = synonym.substring(1, j);
 						ligne=br.readLine();
 						String syn = "synonym".concat(Integer.toString(Pos));
-						System.out.println(syn+" = "+synonym);
+						//System.out.println(syn+" = "+synonym);
 						doc.add(new TextField(syn, synonym, Field.Store.YES));
 						Pos++;					
 						}
@@ -183,7 +183,7 @@ public class HPOConnexion {
 				System.out.println(e.getMessage());
 			}
 		}
-		System.out.println(elementsAjoute+" elements add to the index");
+		//System.out.println(elementsAjoute+" elements add to the index");
 	}
 
 	

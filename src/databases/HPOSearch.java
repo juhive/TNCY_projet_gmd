@@ -45,7 +45,7 @@ public class HPOSearch {
 		}
 		
 		QueryParser parser = new QueryParser(field, analyzer);
-		System.out.println("Searching for '" + nameSearch + "'");
+		//System.out.println("Searching for '" + nameSearch + "'");
 		
 		parser.setDefaultOperator(QueryParser.Operator.AND);
 		parser.setPhraseSlop(0);
@@ -55,7 +55,7 @@ public class HPOSearch {
 		TopDocs results = searcher.search(query, 5 * hitsPerPage);
 		ScoreDoc[] hits = results.scoreDocs;
 		int numTotalHits = results.totalHits;
-		System.out.println(numTotalHits + " total matching documents\n");
+		//System.out.println(numTotalHits + " total matching documents\n");
 		if(numTotalHits==0){
 			return id_HP;
 		}
@@ -76,7 +76,7 @@ public class HPOSearch {
 					//System.out.println((i+1)+"."+id_HP+" = "+label);
 				}
 			} else {
-				System.out.println((i+1) + ". " + "No doc for this name");
+				//System.out.println((i+1) + ". " + "No doc for this name");
 			}
 		}
 		
@@ -107,7 +107,7 @@ public class HPOSearch {
 			}
 
 			QueryParser parser = new QueryParser(field, analyzer);
-			System.out.println("Searching for '" + nameSearch + "'");
+			//System.out.println("Searching for '" + nameSearch + "'");
 
 			parser.setDefaultOperator(QueryParser.Operator.AND);
 			parser.setPhraseSlop(0);
@@ -138,10 +138,10 @@ public class HPOSearch {
 					//System.out.println((i+1) + ". " + synonym);
 					id_HP = doc.get("id_HP");
 					if (id_HP != null) {
-						System.out.println((i+1)+"."+id_HP+" = "+synonym);
+						//System.out.println((i+1)+"."+id_HP+" = "+synonym);
 					}
 				} else {
-					System.out.println((i+1) + ". " + "No doc for this name");
+					//System.out.println((i+1) + ". " + "No doc for this name");
 				}
 
 				

@@ -52,7 +52,7 @@ public class OMIMSearch {
 		
 		
 		QueryParser parser = new QueryParser(field, analyzer);
-		System.out.println("Searching for '" + CStosearch + "'");
+		//System.out.println("Searching for '" + CStosearch + "'");
 		
 		//new
 		//search for the exact sentence given

@@ -60,6 +60,9 @@ public class ATCSearch {
 		ScoreDoc[] hits = results.scoreDocs;
 		int numTotalHits = results.totalHits;
 		//System.out.println(numTotalHits + " total matching documents\n");
+		if (numTotalHits == 0){
+			return new ArrayList<Couple>();
+		}
 		
 		hits = searcher.search(query, numTotalHits).scoreDocs;
 		//System.out.println("Number of hits: " + hits.length);

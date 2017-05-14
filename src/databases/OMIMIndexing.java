@@ -58,8 +58,8 @@ public class OMIMIndexing {
 			while ((Line = reader.readNext()) != null) {
 				//Line[] is an array of values from the line
 				if(Line[1].toUpperCase().contains(prefLabel)){
-					System.out.println("-NEW----------------");
-					System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
+					//System.out.println("-NEW----------------");
+					//System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
 					if(Line[5].contains("|")){
 						if(!CUIs.contains(Line[5].substring(0, 8))){
 							CUIs.add(Line[5].substring(0, 8));
@@ -90,8 +90,8 @@ public class OMIMIndexing {
 		try {
 			while ((Line = reader.readNext()) != null) {
 				//Line[] is an array of values from the line
-				System.out.println("-NEW----------------");
-				System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
+				//System.out.println("-NEW----------------");
+				//System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -150,20 +150,20 @@ public class OMIMIndexing {
 				while((ligne=br.readLine())!=null){
 					if(ligne.startsWith("*RECORD*")){
 						//creation of a new Doc because it's a new disease
-						System.out.println("-NEW----------------");
+						//System.out.println("-NEW----------------");
 						elementsAjoute++;
 						doc = new Document();
 					}
 					if(ligne.startsWith("*FIELD* NO")){
 						String no=br.readLine();
-						System.out.println("no : "+no);
+						//System.out.println("no : "+no);
 						//creation of field "no" and adding it in the Doc
 						doc.add(new TextField("no", no, Field.Store.YES)); //analyse and index
 						//doc.add(new StringField("no", no, Field.Store.YES)); //only index
 					}
 					if(ligne.startsWith("*FIELD* TI")){
 						String ti=br.readLine();
-						System.out.println("ti : "+ti);
+						//System.out.println("ti : "+ti);
 						//creation of field "ti" and adding it in the Doc
 						doc.add(new StringField("ti", ti, Field.Store.YES));
 					}
@@ -184,7 +184,7 @@ public class OMIMIndexing {
 						while(!(cstemp=br.readLine()).startsWith("*FIELD*")){
 							cs=cs+cstemp;
 						}
-						System.out.println("cs : "+cs);
+						//System.out.println("cs : "+cs);
 						//creation of field "cs" and adding it in the Doc
 						doc.add(new TextField("cs", cs, Field.Store.YES));
 						/*StringField is the standard un-analyzed indexed field. The field is indexed is a single token. It is appropriate things like identifiers, for which you only need to search for exact matches.

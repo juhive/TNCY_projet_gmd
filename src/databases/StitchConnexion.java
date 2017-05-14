@@ -35,8 +35,8 @@ public class StitchConnexion {
 	public static void main(String[] args) throws IOException, ParseException {
 		//StitchIndex();
 		//meddraAllSeCompoundId1_in_StitchCodeAtc("CIDm00031477");
-		//String res = stitch_CpdID_to_codeATC("CID");
-		//System.out.println(res);
+		String res = stitch_CpdID_to_codeATC("CIDm00060871");
+		System.out.println(res);
 	}
 	
 	public static String stitch_CpdID_to_codeATC(String nameSearch) throws IOException, ParseException{
@@ -96,7 +96,7 @@ public class StitchConnexion {
 	public static void StitchIndex() {
 
 		String indexPath = "indexes/Stitch";
-		String dbPath = "resourcesFiles/Stitch/chemical.sources.v5.0.EXTRAIT.tsv";  //à mettre dans ressourcesFile  
+		String dbPath = "resourcesFiles/Stitch/chemical.sources.v5.0.tsv";  //à mettre dans ressourcesFile  
 
 
 		final File dbFile = new File(dbPath);
@@ -147,7 +147,6 @@ public class StitchConnexion {
 				while((line=br.readLine())!=null){
 					if (line.startsWith("CID") && line.contains("ATC")){
 						Document doc = new Document(); 
-						System.out.println(line);
 						doc.add(new TextField ("CID", line.substring(0, 12), Field.Store.YES));
 						doc.add(new TextField ("ATC", line.substring(line.length()-7, line.length()), Field.Store.YES));
 						writer.addDocument(doc);

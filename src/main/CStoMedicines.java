@@ -44,7 +44,7 @@ public class CStoMedicines {
 	 */
 	public static ArrayList<Couple> meddralabelTOatclabel(String clinicalSign) throws IOException, ParseException {
 		
-		 ArrayList<Couple> finalList = new ArrayList<Couple>();
+		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		String cui = SiderConnexion.SearchMeddraCUIFromLABEL(clinicalSign);
 				
@@ -57,8 +57,8 @@ public class CStoMedicines {
 				  for (int i=0; i<stitch_compound_id.size(); i++) {
 				  		String code_atc = StitchConnexion.stitch_CpdID_to_codeATC(stitch_compound_id.get(i));
 				  		if (!code_atc.equals("no match")) {
-				  		ArrayList<Couple> intermediaire = ATCSearch.ATCSearchLabel(code_atc);
-				  		finalList.addAll(intermediaire);
+				  			ArrayList<Couple> intermediaire = ATCSearch.ATCSearchLabel(code_atc);
+				  			finalList.addAll(intermediaire);
 				  		}
 				  }
 				 

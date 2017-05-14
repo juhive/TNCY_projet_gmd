@@ -21,6 +21,11 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 public class ATCIndex {
+	
+	public static void main(String[] args){
+		AtcIndex();
+	}
+	
 	private ATCIndex() {}
 
 	/** Index all text files under a directory. */
