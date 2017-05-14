@@ -4,21 +4,22 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.jar.JarException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.simple.parser.ParseException;
 
 import controller.Couple;
 import controller.DrugSideEffect;
 import controller.MainApp;
-import controller.Medecine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
+import main.CStoDisease;
 import main.CStoDrugs;
-import main.CStoMedicines;
 
 public class DisplayDrugSideEffectController {
 	@FXML
@@ -34,7 +35,6 @@ public class DisplayDrugSideEffectController {
     private ObservableList<DrugSideEffect> drugSideEffectData = FXCollections.observableArrayList();
     private InHomePageController hp = new InHomePageController();
     private CStoDrugs csTOdrug = new CStoDrugs();
-    // Reference to the main application.
     private MainApp mainApp;
     
     /**
@@ -71,15 +71,60 @@ public class DisplayDrugSideEffectController {
      * @throws org.apache.lucene.queryparser.classic.ParseException
      */
     public void fillDrugData(String clinicalsign) throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException{
-    	//search drug matching this clinicalSign
-    	ArrayList<Couple> listDrugData = csTOdrug.ClinicalSignToBadMedecines(clinicalsign);    	
+    	String cs1;
+    	String cs2;
+    	Pattern pattern = Pattern.compile(".*AND.*");
+    	Matcher matcher = pattern.matcher(clinicalsign);
+    	Pattern pattern2 = Pattern.compile(".*OR.*");
+    	Matcher matcher2 = pattern2.matcher(clinicalsign);
     	
-    	for (int i=0; i<listDrugData.size(); i++ ) {
-    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(i).getDisease(), listDrugData.get(i).getDataBase()));
+    	boolean listVide = false;
+    	
+    	
+    	if (matcher.find()) {
+    		int length = clinicalsign.length();
+			int i = 1;
+			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'A' && i < length-1) {
+					i++;
+				}
+			cs1 = clinicalsign.substring(0, i-1);
+			cs2 = clinicalsign.substring(i+4);
+			
+			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
+	    		drugSideEffectData.add(new DrugSideEffect(listDiseaseData.get(l).getDisease(), listDiseaseData.get(l).getDataBase()));
+	    	}
+	    	if (listDiseaseData.isEmpty()) {listVide = true;}
+		}
+    	
+    	
+    	else if (matcher2.find()) {
+    		int length = clinicalsign.length();
+			int i = 1;
+			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'O' && i < length-1) {
+					i++;
+				}
+			cs1 = clinicalsign.substring(0, i-1);
+			cs2 = clinicalsign.substring(i+2);
+			
+			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
+	    	for (int j=0; j<listDiseaseData.size(); j++ ) {
+	    		drugSideEffectData.add(new DrugSideEffect(listDiseaseData.get(j).getDisease(), listDiseaseData.get(j).getDataBase()));
+	    	}
+	    	if (listDiseaseData.isEmpty()) {listVide = true;}
+		}
+    	
+    	else {
+    	//search drug matching this clinicalSign
+	    	ArrayList<Couple> listDrugData = CStoDrugs.ClinicalSignToBadMedecines(clinicalsign);    	
+	    	
+	    	for (int i=0; i<listDrugData.size(); i++ ) {
+	    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(i).getDisease(), listDrugData.get(i).getDataBase()));
+	    	}
+	    	if (listDrugData.isEmpty()) {listVide = true;}
     	}
-    	if (listDrugData.isEmpty()) {
-    		drugSideEffectData.add(new DrugSideEffect("No result", "No result"));
-    	}
+    	
+    	if (listVide) {drugSideEffectData.add(new DrugSideEffect("No result", "No result"));}
     }
     
     /**
@@ -119,13 +164,6 @@ public class DisplayDrugSideEffectController {
     	mainApp.showHomePage();
     	
     }
-    
-    /**
-     * Returns the data as an observable list of DrugSideEffect. 
-     * @return
-     */
-    public ObservableList<DrugSideEffect> getDrugSideEffectData() {
-        return drugSideEffectData;
-    } 
+   
   
 }

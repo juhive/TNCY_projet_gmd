@@ -12,13 +12,11 @@ import org.json.simple.parser.ParseException;
 import controller.Couple;
 import controller.Disease;
 import controller.MainApp;
-import databases.OrphaDataBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import main.CStoDisease;
 
@@ -35,13 +33,9 @@ public class DisplayController {
  
     // Reference to the main application.
     private MainApp mainApp;
-    
     private String clinicalsign;
-    
     private ObservableList<Disease> diseaseData = FXCollections.observableArrayList();
-    
     private InHomePageController hp = new InHomePageController();
-    
     private CStoDisease csTOdis = new CStoDisease();
     
     /**
@@ -83,7 +77,7 @@ public class DisplayController {
     	Matcher matcher = pattern.matcher(clinicalsign);
     	Pattern pattern2 = Pattern.compile(".*OR.*");
     	Matcher matcher2 = pattern2.matcher(clinicalsign);
-    	
+    	boolean listVide = false;
     	
     	if (matcher.find()) {
     		int length = clinicalsign.length();
@@ -98,9 +92,7 @@ public class DisplayController {
 	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
 	    		diseaseData.add(new Disease(listDiseaseData.get(l).getDisease(), listDiseaseData.get(l).getDataBase()));
 	    	}
-	    	if (listDiseaseData.isEmpty()) {
-	    		diseaseData.add(new Disease("No result", "No result"));
-	    	}
+	    	if (listDiseaseData.isEmpty()) {listVide = true;}
 		}
     	
     	
@@ -117,9 +109,7 @@ public class DisplayController {
 	    	for (int j=0; j<listDiseaseData.size(); j++ ) {
 	    		diseaseData.add(new Disease(listDiseaseData.get(j).getDisease(), listDiseaseData.get(j).getDataBase()));
 	    	}
-	    	if (listDiseaseData.isEmpty()) {
-	    		diseaseData.add(new Disease("No result", "No result"));
-	    	}
+	    	if (listDiseaseData.isEmpty()) {listVide = true;}
 		}
     	
     	
@@ -128,10 +118,10 @@ public class DisplayController {
 	    	for (int k=0; k<listDiseaseData.size(); k++ ) {
 	    		diseaseData.add(new Disease(listDiseaseData.get(k).getDisease(), listDiseaseData.get(k).getDataBase()));
 	    	}
-	    	if (listDiseaseData.isEmpty()) {
-	    		diseaseData.add(new Disease("No result", "No result"));
-	    	}
+	    	if (listDiseaseData.isEmpty()) {listVide = true;}
     	}
+    	
+    	if (listVide) {diseaseData.add(new Disease("No result","No result"));}
     	
     }
     

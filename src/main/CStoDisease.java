@@ -125,7 +125,6 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 	public static void main(String[] args) throws IOException, ParseException, org.json.simple.parser.ParseException {
 
 		ClinicalSignTosDiseaseET("Abnormality of the clit", "skull/cranial anomalies");
-		
 		}
 	
 }
