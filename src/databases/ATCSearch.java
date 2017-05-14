@@ -52,17 +52,17 @@ public class ATCSearch {
 		}
 		
 		QueryParser parser = new QueryParser(field, analyzer);
-		System.out.println("Searching for '" + ATCtosearch + "'");
+		//System.out.println("Searching for '" + ATCtosearch + "'");
 		Query query = parser.parse(in);
 		
 		int hitsPerPage = 10;
 		TopDocs results = searcher.search(query, 5 * hitsPerPage);
 		ScoreDoc[] hits = results.scoreDocs;
 		int numTotalHits = results.totalHits;
-		System.out.println(numTotalHits + " total matching documents\n");
+		//System.out.println(numTotalHits + " total matching documents\n");
 		
 		hits = searcher.search(query, numTotalHits).scoreDocs;
-		System.out.println("Number of hits: " + hits.length);
+		//System.out.println("Number of hits: " + hits.length);
 		
 		int start = 0;
 		Integer end = Math.min(hits.length, start + hitsPerPage);
@@ -73,7 +73,7 @@ public class ATCSearch {
 				//System.out.println((i+1) + ". " + name);
 				label = doc.get("label");
 				if (label != null) {
-					System.out.println((i+1)+"."+codeATC+" = "+label);
+					//System.out.println((i+1)+"."+codeATC+" = "+label);
 				}
 			} else {
 				System.out.println((i+1) + ". " + "No doc for this name");

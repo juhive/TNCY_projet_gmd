@@ -228,7 +228,6 @@ public class SiderConnexion {
 			
 			while(res.next()){
 				stitch_compound_id1 = res.getString("stitch_compound_id1");
-				System.out.println(stitch_compound_id1);
 				stitch_compound_id1_list.add(stitch_compound_id1);
 			}
 			res.close();
@@ -249,7 +248,6 @@ public class SiderConnexion {
 				ex = ex.getNextException();
 			}
 		}
-		//System.out.println(stitch_compound_id1);
 		return stitch_compound_id1_list;
 
 	}
@@ -271,8 +269,8 @@ public class SiderConnexion {
 				String concept_type= res.getString("meddra_concept_type");
 				String cui_of_meddra_term= res.getString("cui_of_meddra_term");
 				String meddra_concept_name= res.getString("meddra_concept_name");
-				System.out.println("");
-				System.out.println(stitch_id+" ; "+CUI+" ; "+detection+" ; "+concept_name+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+meddra_concept_name);
+				//System.out.println("");
+				//System.out.println(stitch_id+" ; "+CUI+" ; "+detection+" ; "+concept_name+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+meddra_concept_name);
 			}
 			res.close();
 			st.close();
@@ -280,7 +278,7 @@ public class SiderConnexion {
 		}
 		catch (ClassNotFoundException e){
 			System.err.println("Could not load JDBC driver");
-			System.out.println("Esception: " + e);
+			System.out.println("Exception: " + e);
 			e.printStackTrace();
 
 		}
@@ -313,8 +311,8 @@ public class SiderConnexion {
 				//String concept_type= res.getString("meddra_concept_type");
 				//String cui_of_meddra_term= res.getString("cui_of_meddra_term");
 				//String side_effect= res.getString("side_effect_name");
-				System.out.println("");
-				System.out.println(stitch_id1); //+" ; "+stitch_id2+" ; "+CUI+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+side_effect);
+				//System.out.println("");
+				//System.out.println(stitch_id1); //+" ; "+stitch_id2+" ; "+CUI+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+side_effect);
 			}
 			res.close();
 			st.close();
