@@ -51,6 +51,7 @@ import controller.Couple;
 				//get Clinical Sign Name
 				String CSname = (String) value.get("Name");
 				
+				
 				//clinicalSign.toLowerCase().equals(CSname.toLowerCase())
 				if(CSname.toLowerCase().contains(clinicalSign.toLowerCase())) {
 					
