@@ -97,7 +97,7 @@ public class MedecineController {
 			}
 			else {cs2 = null;}
 			
-			ArrayList<Couple> listMedecineData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+			ArrayList<Couple> listMedecineData = CStoMedicines.ClinicalSignToGooodMedecinesET(cs1, cs2);    	
 	    	for (int l=0; l<listMedecineData.size(); l++ ) {
 	    		medecineData.add(new Medecine(listMedecineData.get(l).getDisease(), listMedecineData.get(l).getDataBase()));
 	    	}
@@ -114,7 +114,7 @@ public class MedecineController {
 			cs1 = clinicalsign.substring(0, i-1);
 			cs2 = clinicalsign.substring(i+2);
 			
-			ArrayList<Couple> listMedecineData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
+			ArrayList<Couple> listMedecineData = CStoMedicines.ClinicalSignToGooodMedecinesOU(cs1, cs2);    	
 	    	for (int j=0; j<listMedecineData.size(); j++ ) {
 	    		medecineData.add(new Medecine(listMedecineData.get(j).getDisease(), listMedecineData.get(j).getDataBase()));
 	    	}

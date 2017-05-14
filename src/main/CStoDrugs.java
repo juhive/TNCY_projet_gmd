@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import controller.Couple;
+import databases.ATCIndex;
 import databases.ATCSearch;
 import databases.OMIMIndexing;
 import databases.SiderConnexion;
@@ -53,6 +54,11 @@ public class CStoDrugs {
 		File indexStitch = new File("indexes/Stitch/");
 		if (!indexStitch.exists()) {
 			StitchConnexion.StitchIndex();
+		}
+		
+		File indexATC = new File("indexes/ATC/");
+		if (!indexATC.exists()) {
+			ATCIndex.AtcIndex();
 		}
 		
 		String cui_meddra = SiderConnexion.SearchMeddraCUIFromLABEL(clinicalSign);

@@ -15,7 +15,7 @@
          <center>
             <TableView fx:id="diseaseTable" prefHeight="356.0" prefWidth="600.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="diseaseColumn" prefWidth="75.0" text="Possible Disease" />
+                <TableColumn fx:id="diseaseColumn" prefWidth="75.0" text="Possible diseases" />
                 <TableColumn fx:id="fromColumn" prefWidth="75.0" text="From (DataBase)" />
               </columns>
                <columnResizePolicy>

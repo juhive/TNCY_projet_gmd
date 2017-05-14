@@ -92,7 +92,7 @@ public class DisplayDrugSideEffectController {
 			}
 			else {cs2 = null;}
 			
-			ArrayList<Couple> listDrugData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+			ArrayList<Couple> listDrugData = CStoDrugs.ClinicalSignToBadMedecinesET(cs1, cs2);    	
 	    	for (int l=0; l<listDrugData.size(); l++ ) {
 	    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(l).getDisease(), listDrugData.get(l).getDataBase()));
 	    	}
@@ -109,7 +109,7 @@ public class DisplayDrugSideEffectController {
 			cs1 = clinicalsign.substring(0, i-1);
 			cs2 = clinicalsign.substring(i+2);
 			
-			ArrayList<Couple> listDrugData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
+			ArrayList<Couple> listDrugData = CStoDrugs.ClinicalSignToBadMedecinesOU(cs1, cs2);    	
 	    	for (int j=0; j<listDrugData.size(); j++ ) {
 	    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(j).getDisease(), listDrugData.get(j).getDataBase()));
 	    	}
