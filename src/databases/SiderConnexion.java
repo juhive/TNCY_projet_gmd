@@ -105,13 +105,19 @@ public class SiderConnexion {
 			ResultSet res = prep1.executeQuery();
 			
 			while(res.next()){
-				
+				String ada=null;
+				String temp=null;
 				if(!compound_id.contains(res.getString("stitch_compound_id"))){
-					String ada = res.getString("stitch_compound_id");
-					ada = ada.substring(0, 3).concat("m").concat(ada.substring(4));
-					compound_id.add(ada);
-					//System.out.print(ada);
+					ada = res.getString("stitch_compound_id");
+					temp=ada.substring(0, 3);
+					temp = temp.concat("m");
+					temp = temp.concat(ada.substring(4));
+					if(!compound_id.contains(temp)){
+						compound_id.add(temp);
+					}
+					//System.out.print("ICI "+ada.length()+"\n");
 				}
+				
 			}
 			res.close();
 			con.close();

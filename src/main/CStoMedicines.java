@@ -43,15 +43,16 @@ public class CStoMedicines {
 	 * @throws ParseException
 	 */
 	public static ArrayList<Couple> meddralabelTOatclabel(String clinicalSign) throws IOException, ParseException {
-		
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		String cui = SiderConnexion.SearchMeddraCUIFromLABEL(clinicalSign);
-				
+		System.out.println("CUI = "+cui);
 		if (cui != null) {
 			
 			ArrayList<String>  stitch_compound_id = SiderConnexion.SearchMeddraToMeddraAll(cui);
-			
+			for (String cp : stitch_compound_id){
+				//System.out.println(cp.toString());
+			}
 			if (stitch_compound_id != null) {
 				
 				  for (int i=0; i<stitch_compound_id.size(); i++) {
