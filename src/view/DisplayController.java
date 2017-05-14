@@ -79,16 +79,16 @@ public class DisplayController {
     public void fillDiseaseData(String clinicalsign) throws JarException, MalformedURLException, IOException, ParseException, org.apache.lucene.queryparser.classic.ParseException{
     	String cs1;
     	String cs2;
-    	Pattern pattern = Pattern.compile(".*ET.*");
+    	Pattern pattern = Pattern.compile(".*AND.*");
     	Matcher matcher = pattern.matcher(clinicalsign);
-    	Pattern pattern2 = Pattern.compile(".*OU.*");
+    	Pattern pattern2 = Pattern.compile(".*OR.*");
     	Matcher matcher2 = pattern2.matcher(clinicalsign);
     	
     	
     	if (matcher.find()) {
     		int length = clinicalsign.length();
 			int i = 1;
-			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'E' && i < length-1) {
+			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'A' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);

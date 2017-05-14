@@ -22,7 +22,15 @@ public class CStoDisease {
 	private static HPOSearch hposearch = new HPOSearch();
 	
 	public CStoDisease() {}
-	
+
+	/**
+	 * Return all disease associate to a clinical sign given
+	 * @param clinicalSign
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 * @throws org.json.simple.parser.ParseException
+	 */
 public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) throws IOException, ParseException, org.json.simple.parser.ParseException {
 		
 		ArrayList<Couple> orphaList = new ArrayList<Couple>();
@@ -60,6 +68,15 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		return finalList;
 	}
 
+	/**
+	 * AND fonction 
+	 * @param cs1
+	 * @param cs2
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 * @throws org.json.simple.parser.ParseException
+	 */
 	public static ArrayList<Couple> ClinicalSignTosDiseaseET(String cs1, String cs2) throws IOException, ParseException, org.json.simple.parser.ParseException{
 		ArrayList<Couple> list1 = ClinicalSignTosDisease(cs1);
 		ArrayList<Couple> list2 = ClinicalSignTosDisease(cs2);
@@ -85,6 +102,15 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		return listFinal;
 	}
 	
+	/**
+	 * OR function
+	 * @param cs1
+	 * @param cs2
+	 * @return
+	 * @throws IOException
+	 * @throws ParseException
+	 * @throws org.json.simple.parser.ParseException
+	 */
 	public static ArrayList<Couple> ClinicalSignTosDiseaseOU(String cs1, String cs2) throws IOException, ParseException, org.json.simple.parser.ParseException {
 		ArrayList<Couple> list1 = ClinicalSignTosDisease(cs1);
 		ArrayList<Couple> list2 = ClinicalSignTosDisease(cs2);
