@@ -83,14 +83,14 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		ArrayList<Couple> listFinal = new ArrayList<Couple>();
 		
 		for (int i=0; i<list1.size(); i++) {
-			for (int j=0; i<list2.size(); i++) {
+			for (int j=0; j<list2.size(); j++) {
 				
 				if (list1.get(i).equalsDisease(list2.get(j))) {
 					if (list1.get(i).equalsDataBase(list2.get(j))) {
 						listFinal.add(list1.get(i));
 					}
 					else {
-						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " et " + list2.get(j).getDataBase());
+						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " and " + list2.get(j).getDataBase());
 						listFinal.add(couple);
 					}
 				}

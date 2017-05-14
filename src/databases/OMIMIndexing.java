@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -37,8 +38,45 @@ public class OMIMIndexing {
 	 */
 
 	public static void main(String[] args){
-		OMIMtxt();
-		//OMIMcsv();
+		//OMIMtxt();
+		OMIMcsv();
+		//ArrayList<String> res = SearchOMIMcsv("pneumonia");
+		//System.out.println("jkshfjksl\n"+res.toString());
+	}
+
+	public static ArrayList<String> SearchOMIMcsv(String prefLabel){
+		prefLabel = prefLabel.toUpperCase(); 
+		ArrayList<String> CUIs = new ArrayList<String>();
+		CSVReader reader = null;
+		try {
+			reader = new CSVReader(new FileReader("resourcesFiles/omim/omim_onto.csv"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String [] Line;
+		try {
+			while ((Line = reader.readNext()) != null) {
+				//Line[] is an array of values from the line
+				if(Line[1].toUpperCase().contains(prefLabel)){
+					System.out.println("-NEW----------------");
+					System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
+					if(Line[5].contains("|")){
+						if(!CUIs.contains(Line[5].substring(0, 8))){
+							CUIs.add(Line[5].substring(0, 8));
+						}
+						if(!CUIs.contains(Line[5].substring(9, 17))){
+							CUIs.add(Line[5].substring(9, 17));
+						}
+					}else{
+						CUIs.add(Line[5]);
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return CUIs;
+
 	}
 
 	public static void OMIMcsv() {
@@ -51,7 +89,7 @@ public class OMIMIndexing {
 		String [] Line;
 		try {
 			while ((Line = reader.readNext()) != null) {
-				// nextLine[] is an array of values from the line
+				//Line[] is an array of values from the line
 				System.out.println("-NEW----------------");
 				System.out.println("Preferred label : "+Line[1]+"\nSynonym : "+Line[2]+"\nCUI : "+Line[5]);
 			}

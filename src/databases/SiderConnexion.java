@@ -96,7 +96,7 @@ public class SiderConnexion {
 			Class.forName(DRIVER);
 			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
 			//parameted request to search CUI from the given CS
-			String aQuery = "SELECT stitch_compound_id, cui FROM meddra_all_indications WHERE cui = ?";
+			String aQuery = "SELECT stitch_compound_id FROM meddra_all_indications WHERE cui = ?";
 			//String aQuery = "SELECT * FROM meddra";
 			PreparedStatement prep1 = con.prepareStatement(aQuery);
 			prep1.setString(1,CUI);

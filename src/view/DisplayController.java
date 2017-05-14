@@ -92,7 +92,7 @@ public class DisplayController {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			cs2 = clinicalsign.substring(i+2);
+			cs2 = clinicalsign.substring(i+4);
 			
 			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
 	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
@@ -104,7 +104,7 @@ public class DisplayController {
 		}
     	
     	
-    	if (matcher2.find()) {
+    	else if (matcher2.find()) {
     		int length = clinicalsign.length();
 			int i = 1;
 			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'O' && i < length-1) {
@@ -123,7 +123,7 @@ public class DisplayController {
 		}
     	
     	
-    	if (!matcher.find() && !matcher2.find()) {
+    	else {
     		ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDisease(clinicalsign);    	
 	    	for (int k=0; k<listDiseaseData.size(); k++ ) {
 	    		diseaseData.add(new Disease(listDiseaseData.get(k).getDisease(), listDiseaseData.get(k).getDataBase()));
