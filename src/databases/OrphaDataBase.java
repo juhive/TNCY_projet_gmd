@@ -27,7 +27,7 @@ import controller.Couple;
 	public class OrphaDataBase {
 
 		public static void main(String[] args) throws JarException, MalformedURLException, IOException, ParseException {
-			CStoDiseases("skull/cranial anoamlies");
+			//CStoDiseases("skull/cranial anoamlies");
 			//Skull/cranial anomalies
 			//Conjunctival injection/chemosis/red eye
 		}

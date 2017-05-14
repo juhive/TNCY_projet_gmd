@@ -30,7 +30,7 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		ArrayList<Couple> orphaList = new ArrayList<Couple>();
 		ArrayList<Couple> omimList = new ArrayList<Couple>();
 		ArrayList<Couple> hpoList = new ArrayList<Couple>();
-		ArrayList<Couple> hpoList2 = new ArrayList<Couple>();
+		//ArrayList<Couple> hpoList2 = new ArrayList<Couple>();
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		//ORPHADATA
@@ -49,14 +49,14 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 			HPOConnexion.HP_obo();
 		}
 		String idHP = HPOSearch.id_HPO_oboSearchid_HP(clinicalSign);
-		String id_HP = HPOSearch.id_HPO_annotationSearchid_HP(clinicalSign);
-		hpoList=HPOConnexion.ToDiseaseLabel(idHP, 1);
-		hpoList2=HPOConnexion.ToDiseaseLabel(id_HP, 1);
+		//String id_HP = HPOSearch.id_HPO_annotationSearchid_HP(clinicalSign);
+		hpoList=HPOConnexion.ToDiseaseLabel(idHP);
+		//hpoList2=HPOConnexion.ToDiseaseLabel(id_HP);
 		
 		finalList.addAll(orphaList);
 		finalList.addAll(omimList);
+		//hpoList.addAll(hpoList2);
 		finalList.addAll(hpoList);
-		finalList.addAll(hpoList2);
 				
 		return finalList;
 	}
@@ -108,17 +108,8 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 		ArrayList<Couple> list2 = ClinicalSignTosDisease(cs2);
 		ArrayList<Couple> listFinal = new ArrayList<Couple>();
 		
-		for (int i=0; i<list1.size(); i++) {
-			for (int j=0; j<list2.size(); j++) {
-				
-				if (list1.get(i).equalsDisease(list2.get(j))) {
-					if (list1.get(i).equalsDataBase(list2.get(j))) {listFinal.add(list1.get(i));}
-					else {
-						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " or " + list2.get(j).getDataBase());
-						listFinal.add(couple);}
-				}
-			}
-		}
+		listFinal.addAll(list1);
+		listFinal.addAll(list2);
 
 		return listFinal;
 	}
@@ -126,7 +117,7 @@ public static ArrayList<Couple> ClinicalSignTosDisease(String clinicalSign) thro
 	
 	public static void main(String[] args) throws IOException, ParseException, org.json.simple.parser.ParseException {
 
-		ClinicalSignTosDiseaseET("Abnormality of the clit", "skull/cranial anomalies");
+		ClinicalSignTosDiseaseET("fever", "migraine");
 		}
 	
 }

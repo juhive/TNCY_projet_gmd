@@ -33,10 +33,10 @@ import org.apache.lucene.store.FSDirectory;
 public class StitchConnexion {
 	
 	public static void main(String[] args) throws IOException, ParseException {
-		//StitchIndex();
+		StitchIndex();
 		//meddraAllSeCompoundId1_in_StitchCodeAtc("CIDm00031477");
-		String res = stitch_CpdID_to_codeATC("CIDm00060871");
-		System.out.println(res);
+		//String res = stitch_CpdID_to_codeATC("CIDm00060871");
+		//System.out.println(res);
 	}
 	
 	public static String stitch_CpdID_to_codeATC(String nameSearch) throws IOException, ParseException{
@@ -96,7 +96,7 @@ public class StitchConnexion {
 	public static void StitchIndex() {
 
 		String indexPath = "indexes/Stitch";
-		String dbPath = "resourcesFiles/Stitch/chemical.sources.v5.0.tsv";  //à mettre dans ressourcesFile  
+		String dbPath = "resourcesFiles/Stitch/chemical.sources.v5.0.tsv";  
 
 
 		final File dbFile = new File(dbPath);

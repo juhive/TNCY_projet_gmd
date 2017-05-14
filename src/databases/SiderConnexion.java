@@ -26,7 +26,8 @@ public class SiderConnexion {
 		//String f = SearchMeddraCUIFromLABEL("pneumonia");
 		//System.out.println(f);
 		//sidder_meddra_all_se_compound_id1();
-		tableMeddraIndication();
+		//tableMeddraIndication();
+		meddraSE_sideEffect_ToCpdId1("deafness");
 
 	}
 
@@ -85,7 +86,7 @@ public class SiderConnexion {
 		return CUI;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param CUI
@@ -103,7 +104,7 @@ public class SiderConnexion {
 			prep1.setString(1,CUI);
 			//exécution de la requête
 			ResultSet res = prep1.executeQuery();
-			
+
 			while(res.next()){
 				String ada=null;
 				String temp=null;
@@ -117,7 +118,7 @@ public class SiderConnexion {
 					}
 					//System.out.print("ICI "+ada.length()+"\n");
 				}
-				
+
 			}
 			res.close();
 			con.close();
@@ -140,7 +141,7 @@ public class SiderConnexion {
 		return compound_id;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param CUI from meddra_all_se
@@ -155,12 +156,16 @@ public class SiderConnexion {
 			PreparedStatement prep1 = con.prepareStatement(aQuery);
 			prep1.setString(1,CUI);
 			ResultSet res = prep1.executeQuery();
-			
+
 			while(res.next()){
-				String ada = res.getString("stitch_compound_id1");
-				ada = ada.substring(0, 3).concat("m").concat(ada.substring(4));
-				stitch_compound_id1 = ada;
-				//System.out.println(ada);
+				String ada=null;
+				String temp=null;
+				ada = res.getString("stitch_compound_id");
+				temp=ada.substring(0, 3);
+				temp = temp.concat("m");
+				temp = temp.concat(ada.substring(4));
+				stitch_compound_id1 = temp;
+
 			}
 			res.close();
 			con.close();
@@ -184,14 +189,14 @@ public class SiderConnexion {
 		return stitch_compound_id1;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param side effect term from meddra_all_se
 	 * @return Stitch_compound_id1 from meddra_all_se
 	 */
-	public static String meddraSE_sideEffect_ToCpdId1(String sideEffect){
-		String stitch_compound_id1 = null;
+	public static ArrayList<String> meddraSE_sideEffect_ToCpdId1(String sideEffect){
+		ArrayList<String> stitch_compound_id1 = new ArrayList<String>();
 		try {
 			Class.forName(DRIVER);
 			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
@@ -199,12 +204,21 @@ public class SiderConnexion {
 			PreparedStatement prep1 = con.prepareStatement(aQuery);
 			prep1.setString(1,sideEffect);
 			ResultSet res = prep1.executeQuery();
-			
+
 			while(res.next()){
-				String ada = res.getString("stitch_compound_id1");
-				ada = ada.substring(0, 3).concat("m").concat(ada.substring(4));
-				stitch_compound_id1 = ada;
-				//System.out.print(ada);
+				String ada=null;
+				String temp=null;
+				if(!stitch_compound_id1.contains(res.getString("stitch_compound_id1"))){
+					ada = res.getString("stitch_compound_id1");
+					temp=ada.substring(0, 3);
+					temp = temp.concat("m");
+					temp = temp.concat(ada.substring(4));
+					if(!stitch_compound_id1.contains(temp)){
+						stitch_compound_id1.add(temp);
+						//System.out.print(temp+"\n");
+					}
+					
+				}
 			}
 			res.close();
 			con.close();
@@ -228,7 +242,7 @@ public class SiderConnexion {
 		return stitch_compound_id1;
 
 	}
-	
+
 	/**
 	 * 
 	 * @return ArrayList<String> of all stitch_compound_id1 from sidder meddra all se
@@ -242,7 +256,7 @@ public class SiderConnexion {
 			String aQuery = "SELECT stitch_compound_id1 FROM meddra_all_se";
 			PreparedStatement prep1 = con.prepareStatement(aQuery);
 			ResultSet res = prep1.executeQuery();
-			
+
 			while(res.next()){
 				stitch_compound_id1 = res.getString("stitch_compound_id1");
 				System.out.println(stitch_compound_id1);
@@ -281,7 +295,7 @@ public class SiderConnexion {
 
 			while(res.next()){
 				String stitch_id= res.getString("stitch_compound_id");
-				
+
 				System.out.println(stitch_id);
 				//System.out.println(stitch_id+" ; "+CUI+" ; "+detection+" ; "+concept_name+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+meddra_concept_name);
 			}
@@ -312,8 +326,8 @@ public class SiderConnexion {
 		try {
 			Class.forName(DRIVER);
 			Connection con = DriverManager.getConnection(DB_SERVER+database,USER_NAME, PWD);
-			String myQuery = "SELECT stitch_compound_id1 " +				//requete
-					"FROM meddra_all_se" ;
+			String myQuery = "SELECT side_effect_name, stitch_compound_id1 " +				//requete
+					"FROM meddra_all_se WHERE side_effect_name = 'Anxiety'" ;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery(myQuery);
 
@@ -323,9 +337,9 @@ public class SiderConnexion {
 				//String CUI = res.getString("cui");
 				//String concept_type= res.getString("meddra_concept_type");
 				//String cui_of_meddra_term= res.getString("cui_of_meddra_term");
-				//String side_effect= res.getString("side_effect_name");
+				String side_effect= res.getString("side_effect_name");
 				//System.out.println("");
-				//System.out.println(stitch_id1); //+" ; "+stitch_id2+" ; "+CUI+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+side_effect);
+				System.out.println(side_effect + " " + stitch_id1); //+" ; "+stitch_id2+" ; "+CUI+" ; "+concept_type+" ; "+cui_of_meddra_term+" ; "+side_effect);
 			}
 			res.close();
 			st.close();
@@ -349,7 +363,7 @@ public class SiderConnexion {
 		}
 
 	}
-	
+
 
 }
 

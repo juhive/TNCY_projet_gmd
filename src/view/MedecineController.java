@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
 import org.json.simple.parser.ParseException;
 
 import controller.Couple;
-import controller.Disease;
-import controller.DrugSideEffect;
 import controller.MainApp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
-import main.CStoDisease;
 import main.CStoMedicines;
 
 public class MedecineController {
@@ -108,14 +105,23 @@ public class MedecineController {
     	else if (matcher2.find()) {
     		int length = clinicalsign.length();
 			int i = 1;
+			boolean flag = false;
 			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'O' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			cs2 = clinicalsign.substring(i+2);
+			cs2 = null;
+			if (clinicalsign.substring(i).length() > 2) {
+				cs2 = clinicalsign.substring(i+3);
+			}
+			else {flag = true;}
 			
-			ArrayList<Couple> listMedecineData = CStoMedicines.ClinicalSignToGooodMedecinesOU(cs1, cs2);    	
-	    	for (int j=0; j<listMedecineData.size(); j++ ) {
+			ArrayList<Couple> listMedecineData;    	
+			if (!flag) {
+				listMedecineData = CStoMedicines.ClinicalSignToGooodMedecinesOU(cs1, cs2);    	
+			}
+			else {listMedecineData = CStoMedicines.ClinicalSignToGooodMedecines(cs1);  }
+			for (int j=0; j<listMedecineData.size(); j++ ) {
 	    		medecineData.add(new Medecine(listMedecineData.get(j).getDisease(), listMedecineData.get(j).getDataBase()));
 	    	}
 	    	if (listMedecineData.isEmpty()) {listVide = true;}

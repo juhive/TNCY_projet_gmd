@@ -1,23 +1,11 @@
 package view;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.jar.JarException;
+
 
 import org.json.simple.parser.ParseException;
 
-import controller.Couple;
-import controller.Disease;
 import controller.MainApp;
-import databases.HPOConnexion;
-import databases.OrphaDataBase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class InHomePageController {
@@ -55,7 +43,7 @@ public class InHomePageController {
 	    
 	    public void handleButtonSearch() throws ParseException {
 	    	clinicalSign = CS.getText();
-	    	System.out.println(clinicalSign);
+	    	//System.out.println(clinicalSign);
 	    	
 	    	mainApp.showDisplayPage();
 	    	

@@ -12,9 +12,9 @@ import databases.StitchConnexion;
 
 public class CStoMedicines {
 	
-	public static void main(String[] args) throws IOException, ParseException {
+	public static void main(String[] args) throws IOException, ParseException, org.json.simple.parser.ParseException {
 
-		System.out.println(ClinicalSignToGooodMedecines("pneumonia"));
+		ClinicalSignToGooodMedecinesOU("fever", "anxiety");
 		
 	}
 	
@@ -46,7 +46,7 @@ public class CStoMedicines {
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		String cui = SiderConnexion.SearchMeddraCUIFromLABEL(clinicalSign);
-		System.out.println("CUI = "+cui);
+		//System.out.println("CUI = "+cui);
 		if (cui != null) {
 			
 			ArrayList<String>  stitch_compound_id = SiderConnexion.SearchMeddraToMeddraAll(cui);
@@ -117,18 +117,15 @@ public class CStoMedicines {
 		ArrayList<Couple> list2 = ClinicalSignToGooodMedecines(cs2);
 		ArrayList<Couple> listFinal = new ArrayList<Couple>();
 		
-		for (int i=0; i<list1.size(); i++) {
-			for (int j=0; j<list2.size(); j++) {
-				
-				if (list1.get(i).equalsDisease(list2.get(j))) {
-					if (list1.get(i).equalsDataBase(list2.get(j))) {listFinal.add(list1.get(i));}
-					else {
-						Couple couple = new Couple(list1.get(i).getDisease(), list1.get(i).getDataBase() + " or " + list2.get(j).getDataBase());
-						listFinal.add(couple);}
-				}
-			}
-		}
-		
+		//System.out.println(list1);
+		//System.out.println(list2);
+
+		listFinal.addAll(list1);
+		//System.out.println(listFinal);
+
+		listFinal.addAll(list2);
+		//System.out.println(listFinal);
+
 		return listFinal;
 	}
 	

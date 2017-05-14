@@ -81,17 +81,22 @@ public class DisplayController {
     	if (matcher.find()) {
     		int length = clinicalsign.length();
 			int i = 1;
+			boolean flag = false;
 			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'A' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
+			cs2 = null;
 			if (clinicalsign.substring(i).length() > 3) {
 				cs2 = clinicalsign.substring(i+4);
 			}
-			else {cs2 = null;}
+			else {flag = true;}
 			
-			
-			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+			ArrayList<Couple> listDiseaseData;
+			if (!flag) {
+				listDiseaseData = CStoDisease.ClinicalSignTosDiseaseET(cs1, cs2);    	
+			}
+			else {listDiseaseData = CStoDisease.ClinicalSignTosDisease(cs1);  }
 	    	for (int l=0; l<listDiseaseData.size(); l++ ) {
 	    		diseaseData.add(new Disease(listDiseaseData.get(l).getDisease(), listDiseaseData.get(l).getDataBase()));
 	    	}
@@ -106,7 +111,10 @@ public class DisplayController {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			cs2 = clinicalsign.substring(i+2);
+			if (clinicalsign.substring(i).length() > 2) {
+				cs2 = clinicalsign.substring(i+3);
+			}
+			else {cs2 = "";}
 			
 			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
 	    	for (int j=0; j<listDiseaseData.size(); j++ ) {

@@ -32,8 +32,8 @@ public class HPOConnexion {
 	public static void main(String[] args) {
 
 		//HPO_annotation();
-		HP_obo();
-		System.out.println(ToDiseaseLabel("HP:0000056", 1));
+		//HP_obo();
+		//System.out.println(ToDiseaseLabel("HP:0000056"));
 	}
 
 	
@@ -190,7 +190,7 @@ public class HPOConnexion {
 	/** 1 = sign_id
 	 * 2 = disease_db_and_id 
 	 **/
-	 public static ArrayList<Couple> ToDiseaseLabel(String hpo_anno_sign_id, int what){
+	 public static ArrayList<Couple> ToDiseaseLabel(String hpo_anno_sign_id){
 	 	
 	 	String diseaseLabel = null;
 	 	String diseaseDb = null;
@@ -206,12 +206,10 @@ public class HPOConnexion {
 	 		Connection conn = DriverManager.getConnection("jdbc:sqlite:resourcesFiles/HPO/hpo_annotations.sqlite");
 	 			
 	 		String aQuery= "";
-	 		if(what == 1) {
+	 		
 	 		aQuery = "SELECT disease_label, disease_db FROM phenotype_annotation WHERE sign_id = ?";
-	 		}
-	 		else if(what == 2) {
-	 			aQuery = "SELECT disease_label, disease_db FROM phenotype_annotation WHERE disease_db_and_id = ?";
-	 			}
+	 		
+	 		
 	 		PreparedStatement prep1 = conn.prepareStatement(aQuery);
 	 		prep1.setString(1,hpo_anno_sign_id);
 	 		
@@ -247,18 +245,47 @@ public class HPOConnexion {
 	 					diseaseLabel = diseaseLabel.substring(0, i);
 	 				}
 	 				diseaseLabel = diseaseLabel.toLowerCase();
-	 				Couple couple = new Couple(diseaseLabel, "OMIM via HPO");
-	 				ListDiseaseLabel.add(couple);
+	 				Couple couple = new Couple(diseaseLabel, "OMIM (via HPO)");
+	 				
+	 				boolean flag =false;
+					for (int k=0; k<ListDiseaseLabel.size(); k++ ) {
+						if (ListDiseaseLabel.get(k).equals(couple)) {
+							flag = true;
+							break;
+						}
+					}
+					if (!flag) {
+						ListDiseaseLabel.add(couple);
+					}
+					
 	 			}
 	 			else if (diseaseDb.equals("ORPHA")) {
 	 				diseaseLabel = diseaseLabel.toLowerCase();
-	 				Couple couple = new Couple(diseaseLabel, "OrphaData via HPO");
-	 				ListDiseaseLabel.add(couple);
+	 				Couple couple = new Couple(diseaseLabel, "OrphaData (via HPO)");
+	 				boolean flag =false;
+					for (int k=0; k<ListDiseaseLabel.size(); k++ ) {
+						if (ListDiseaseLabel.get(k).equals(couple)) {
+							flag = true;
+							break;
+						}
+					}
+					if (!flag) {
+						ListDiseaseLabel.add(couple);
+					}
 	 			}
 	 			else if (diseaseDb.equals("DECIPHER")) {
 	 				diseaseLabel = diseaseLabel.toLowerCase();
-	 				Couple couple = new Couple(diseaseLabel, "Decipher via HPO");
-	 				ListDiseaseLabel.add(couple);
+	 				Couple couple = new Couple(diseaseLabel, "Decipher (via HPO)");
+	 				boolean flag =false;
+					for (int k=0; k<ListDiseaseLabel.size(); k++ ) {
+						if (ListDiseaseLabel.get(k).equals(couple)) {
+							flag = true;
+							break;
+						}
+					}
+					if (!flag) {
+						ListDiseaseLabel.add(couple);
+					}
 	 			}				
 	 			
 	 		}
@@ -281,15 +308,7 @@ public class HPOConnexion {
 	 			}
 	 	}
 	 	
-	 	if(what == 2) {
-	 		ArrayList<Couple> ListDiseaseLabel2 = new ArrayList<Couple>();
-	 		Couple oneTime = ListDiseaseLabel.get(0);
-	 		ListDiseaseLabel2.add(oneTime);
-	 		ListDiseaseLabel = ListDiseaseLabel2;
-	 	}
-	 	
-	 	System.out.println(ListDiseaseLabel.toString());
-		return ListDiseaseLabel;
+	 	return ListDiseaseLabel;
 	 
 	 }
 	
