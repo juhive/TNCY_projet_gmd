@@ -31,7 +31,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#handleButtonSearch" text="Search for diseases causing this sign" />
             <Button mnemonicParsing="false" onAction="#handleButtonMedecine" text="Search for medecines curing this sign" />
-            <Button mnemonicParsing="false" onAction="#handleButtonDrugSideEffect" text="Search for medecines causing this side effect" />
+            <Button mnemonicParsing="false" onAction="#handleButtonDrugSideEffect" text="Search for medicines causing this side effect" />
          </children>
       </FlowPane>
    </children>

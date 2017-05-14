@@ -29,14 +29,24 @@ public class CStoDrugs {
 	 */
 	public static ArrayList<Couple> ClinicalSignToBadMedecines(String clinicalSign) throws IOException, ParseException {
 		
-		ArrayList<Couple> first = meddraLabelTOatcLabel(clinicalSign);
-		ArrayList<Couple> second = meddrasideeffectTOatclabel(clinicalSign);
-		ArrayList<Couple> finalList = new ArrayList<Couple>();
-	
-		finalList.addAll(first);
-		finalList.addAll(second);
+		File indexStitch = new File("indexes/Stitch/");
+		if (!indexStitch.exists()) {
+			StitchConnexion.StitchIndex();
+		}
 		
-		return finalList;
+		File indexATC = new File("indexes/ATC/");
+		if (!indexATC.exists()) {
+			ATCIndex.AtcIndex();
+		}
+		
+		//ArrayList<Couple> first = meddraLabelTOatcLabel(clinicalSign);
+		ArrayList<Couple> second = meddrasideeffectTOatclabel(clinicalSign);
+		//ArrayList<Couple> finalList = new ArrayList<Couple>();
+	
+		//finalList.addAll(first);
+		//finalList.addAll(second);
+		
+		return second;
 		
 	}
 	
@@ -48,6 +58,7 @@ public class CStoDrugs {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
+	/*
 	public static ArrayList<Couple> meddraLabelTOatcLabel(String clinicalSign) throws IOException, ParseException {
 		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
@@ -79,6 +90,7 @@ public class CStoDrugs {
 		
 		return finalList;
 	}
+	*/
 	
 	/**
 	 * return atc label from a side effect (in meddra_se)
@@ -88,8 +100,7 @@ public class CStoDrugs {
 	 * @throws ParseException
 	 */
 	public static ArrayList<Couple> meddrasideeffectTOatclabel(String clinicalSign) throws IOException, ParseException {
-		
-		 ArrayList<Couple> finalList = new ArrayList<Couple>();
+		ArrayList<Couple> finalList = new ArrayList<Couple>();
 		
 		String stitch_compound_id1 = SiderConnexion.meddraSE_sideEffect_ToCpdId1(clinicalSign);
 				
