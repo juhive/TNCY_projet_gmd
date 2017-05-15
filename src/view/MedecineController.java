@@ -113,12 +113,12 @@ public class MedecineController {
     		int length = clinicalsign.length();
 			int i = 1;
 			boolean flag = false;
-			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'O' && i < length-1) {
+			while(clinicalsign.charAt(i+1) != 'R' && clinicalsign.charAt(i) != 'O' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
 			cs2 = null;
-			if (clinicalsign.substring(i).length() > 2) {
+			if (clinicalsign.substring(i).length() > 3) {
 				cs2 = clinicalsign.substring(i+3);
 			}
 			else {flag = true;}
