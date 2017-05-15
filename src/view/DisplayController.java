@@ -87,7 +87,7 @@ public class DisplayController {
 				}
 			cs1 = clinicalsign.substring(0, i-1);
 			cs2 = null;
-			if (clinicalsign.substring(i).length() > 3) {
+			if (clinicalsign.substring(i).length() > 4) {
 				cs2 = clinicalsign.substring(i+4);
 			}
 			else {flag = true;}

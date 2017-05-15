@@ -89,12 +89,19 @@ public class MedecineController {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
+			cs2 = null;
 			if (clinicalsign.substring(i).length() > 3) {
 				cs2 = clinicalsign.substring(i+4);
 			}
-			else {cs2 = null;}
+			else {listVide = true;}
 			
-			ArrayList<Couple> listMedecineData = CStoMedicines.ClinicalSignToGooodMedecinesET(cs1, cs2);    	
+			ArrayList<Couple> listMedecineData;    
+			if(!listVide) {listMedecineData = CStoMedicines.ClinicalSignToGooodMedecinesET(cs1, cs2);
+				
+			}
+			else {
+				listMedecineData = CStoMedicines.ClinicalSignToGooodMedecines(cs1);
+			}
 	    	for (int l=0; l<listMedecineData.size(); l++ ) {
 	    		medecineData.add(new Medecine(listMedecineData.get(l).getDisease(), listMedecineData.get(l).getDataBase()));
 	    	}

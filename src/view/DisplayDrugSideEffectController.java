@@ -87,12 +87,16 @@ public class DisplayDrugSideEffectController {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			if (clinicalsign.substring(i).length() > 3) {
+			cs2 = null;
+			if (clinicalsign.substring(i).length() > 4) {
 				cs2 = clinicalsign.substring(i+4);
 			}
-			else {cs2 = null;}
+			else {listVide = true;}
 			
-			ArrayList<Couple> listDrugData = CStoDrugs.ClinicalSignToBadMedecinesET(cs1, cs2);    	
+			ArrayList<Couple> listDrugData;    
+			if (!listVide) {listDrugData = CStoDrugs.ClinicalSignToBadMedecinesET(cs1, cs2);
+			}
+			else {listDrugData = CStoDrugs.ClinicalSignToBadMedecines(cs1);}
 	    	for (int l=0; l<listDrugData.size(); l++ ) {
 	    		drugSideEffectData.add(new DrugSideEffect(listDrugData.get(l).getDisease(), listDrugData.get(l).getDataBase()));
 	    	}
