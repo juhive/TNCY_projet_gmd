@@ -155,6 +155,7 @@ public class DisplayController {
     	clinicalsign = hp.getCS();
     	
     	
+    	
         // Initialize the disease table with the two columns.
         diseaseColumn.setCellValueFactory(cellData -> cellData.getValue().diseaseProperty());
         fromColumn.setCellValueFactory(cellData -> cellData.getValue().fromProperty()); 
