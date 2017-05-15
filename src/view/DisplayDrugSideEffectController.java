@@ -83,7 +83,7 @@ public class DisplayDrugSideEffectController {
     	if (matcher.find()) {
     		int length = clinicalsign.length();
 			int i = 1;
-			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'A' && i < length-1) {
+			while(clinicalsign.charAt(i+1) != 'N' && clinicalsign.charAt(i) != 'A' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);

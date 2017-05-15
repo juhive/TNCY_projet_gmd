@@ -82,7 +82,7 @@ public class DisplayController {
     		int length = clinicalsign.length();
 			int i = 1;
 			boolean flag = false;
-			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'A' && i < length-1) {
+			while(clinicalsign.charAt(i+1) != 'N' && clinicalsign.charAt(i) != 'A' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
@@ -107,16 +107,21 @@ public class DisplayController {
     	else if (matcher2.find()) {
     		int length = clinicalsign.length();
 			int i = 1;
-			while(clinicalsign.charAt(i-1) != ' ' && clinicalsign.charAt(i) != 'O' && i < length-1) {
+			boolean emptyList = false;
+			while(clinicalsign.charAt(i+1) != 'R' && clinicalsign.charAt(i) != 'O' && i < length-1) {
 					i++;
 				}
 			cs1 = clinicalsign.substring(0, i-1);
-			if (clinicalsign.substring(i).length() > 2) {
+			cs2 = null;
+			if (clinicalsign.substring(i).length() > 3) {
 				cs2 = clinicalsign.substring(i+3);
 			}
-			else {cs2 = "";}
+			else {emptyList = true;}
 			
-			ArrayList<Couple> listDiseaseData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2);    	
+			ArrayList<Couple> listDiseaseData; 
+			if (!emptyList) {listDiseaseData = CStoDisease.ClinicalSignTosDiseaseOU(cs1, cs2); 
+			}
+			else {listDiseaseData = CStoDisease.ClinicalSignTosDisease(cs1); }
 	    	for (int j=0; j<listDiseaseData.size(); j++ ) {
 	    		diseaseData.add(new Disease(listDiseaseData.get(j).getDisease(), listDiseaseData.get(j).getDataBase()));
 	    	}
